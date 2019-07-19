@@ -23,6 +23,7 @@ class FiveDayForecastPresenter(
         this.view = view
         // TODO implement your own loading method and use real API in a way that is convenient for you
         //   you can use any network library and architecture approach in order to do so
+        //   @see com.distillery.interview.weather.WeatherApi
         uglyLoadItemsMethod {
             view.setWeatherItems(it)
         }
