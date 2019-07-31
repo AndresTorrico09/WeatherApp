@@ -1,6 +1,6 @@
 package com.distillery.interview.basemvp
 
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 
 /**
  * Base interface for all MVP presenters.

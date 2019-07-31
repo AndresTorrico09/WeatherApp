@@ -1,7 +1,7 @@
 package com.distillery.interview.jsonutils
 
 import android.content.Context
-import android.support.annotation.WorkerThread
+import androidx.annotation.WorkerThread
 import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.Charset
