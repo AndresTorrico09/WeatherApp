@@ -12,19 +12,19 @@ const val ARG_OBJECT = "object"
 
 // Instances of this class are fragments representing a single
 // object in our collection.
-class WeatherObjectFragment : Fragment() {
+class CurrentWeatherFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_collection_object, container, false)
+        return inflater.inflate(R.layout.fragment_current_weather, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
-            val textView: TextView = view.findViewById(R.id.text1)
+            val textView: TextView = view.findViewById(R.id.title)
             textView.text = getString(ARG_OBJECT)
         }
     }

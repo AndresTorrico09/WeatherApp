@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    android:orientation="vertical"
+    android:padding="@dimen/_15sdp">
+
+    <TextView
+        android:id="@+id/temp_max"
+        style="@style/TempsTextStyle"
+        android:paddingStart="0dp"
+        android:paddingEnd="@dimen/_8sdp"
+        android:text="@string/max_temp_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/temp_min"
+        style="@style/TempsTextStyle"
+        android:text="@string/min_temp_text"
+        app:layout_constraintStart_toEndOf="@+id/temp_max"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <LinearLayout
+        android:id="@+id/temp_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temp_max">
+
+        <TextView
+            android:id="@+id/temp"
+            style="@style/TempsTextStyle"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:text="15°"
+            android:textSize="@dimen/_80ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/max_min_temps" />
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/TempsTextStyle"
+            android:layout_gravity="center"
+            android:text="Mostly Cloudy" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/feels_like"
+        style="@style/TempsTextStyle"
+        android:text="@string/feels_like_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temp_container" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
