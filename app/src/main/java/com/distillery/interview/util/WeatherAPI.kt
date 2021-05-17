@@ -1,4 +1,4 @@
-package com.distillery.interview.weather
+package com.distillery.interview.util
 
 private const val WEATHER_FIVE_DAYS_FORECAST_URL = "api.openweathermap.org/data/2.5/forecast"
 private const val WEATHER_TODAY_FORECAST_URL = "api.openweathermap.org/data/2.5/weather"
