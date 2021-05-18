@@ -1,4 +1,4 @@
-package com.distillery.interview.ui.fragments
+package com.distillery.interview.ui.viewpager
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.distillery.interview.R
-import com.distillery.interview.ui.adapters.WeatherCollectionAdapter
+import com.distillery.interview.ui.viewpager.WeatherCollectionAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class CollectionWeatherFragment : Fragment() {
+class WeatherCollectionFragment : Fragment() {
     private lateinit var weatherCollectionAdapter: WeatherCollectionAdapter
     private lateinit var viewPager: ViewPager2
 

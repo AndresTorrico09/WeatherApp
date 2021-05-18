@@ -1,10 +1,10 @@
-package com.distillery.interview.ui.adapters
+package com.distillery.interview.ui.viewpager
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.distillery.interview.ui.fragments.CurrentWeatherFragment
-import com.distillery.interview.ui.fragments.NextDaysFragment
-import com.distillery.interview.ui.fragments.TodayWeatherFragment
+import com.distillery.interview.ui.current_weather.CurrentWeatherFragment
+import com.distillery.interview.ui.next_days_weather.NextDaysFragment
+import com.distillery.interview.ui.today_weather.TodayWeatherFragment
 
 class WeatherCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

@@ -1,4 +1,4 @@
-package com.distillery.interview.ui.fragments
+package com.distillery.interview.ui.today_weather
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,10 +14,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [NextDaysFragment.newInstance] factory method to
+ * Use the [TodayWeatherFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NextDaysFragment : Fragment() {
+class TodayWeatherFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,7 +35,7 @@ class NextDaysFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_next_days, container, false)
+        return inflater.inflate(R.layout.fragment_today_weather, container, false)
     }
 
     companion object {
@@ -45,12 +45,12 @@ class NextDaysFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment NextDaysFragment.
+         * @return A new instance of fragment TodayWeatherFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            NextDaysFragment().apply {
+            TodayWeatherFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

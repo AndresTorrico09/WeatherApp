@@ -1,9 +1,9 @@
-package com.distillery.interview.ui.activities
+package com.distillery.interview.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.distillery.interview.R
-import com.distillery.interview.ui.fragments.CollectionWeatherFragment
+import com.distillery.interview.ui.viewpager.WeatherCollectionFragment
 
 class MainActivity : AppCompatActivity(){
 
@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity(){
 
         if(savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.root, CollectionWeatherFragment())
+                .replace(R.id.root, WeatherCollectionFragment())
                 .commitAllowingStateLoss()
         }
     }
