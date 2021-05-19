@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.distillery.interview.R
-import com.distillery.interview.ui.viewpager.WeatherCollectionAdapter
+import com.distillery.interview.ui.viewpager.WeatherCollectionAdapter.Companion.CURRENT_WEATHER_SCREEN
+import com.distillery.interview.ui.viewpager.WeatherCollectionAdapter.Companion.NEXT_DAYS_WEATHER_SCREEN
+import com.distillery.interview.ui.viewpager.WeatherCollectionAdapter.Companion.TODAY_WEATHER_SCREEN
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -35,13 +37,13 @@ class WeatherCollectionFragment : Fragment() {
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
-                0 -> {
+                CURRENT_WEATHER_SCREEN -> {
                     tab.text = getString(R.string.current_title)
                 }
-                1 -> {
+                TODAY_WEATHER_SCREEN -> {
                     tab.text = getString(R.string.today_title)
                 }
-                2 -> {
+                NEXT_DAYS_WEATHER_SCREEN -> {
                     tab.text = getString(R.string.next_days_title)
                 }
             }
