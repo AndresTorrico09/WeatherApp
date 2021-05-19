@@ -37,6 +37,7 @@ class CurrentWeatherViewModel(
     fun getCurrentWeather() = viewModelScope.launch(Dispatchers.Default) {
         withContext(Dispatchers.Main) { showLoading() }
 
+        //TODO: Replace with call from Repository
         val result = weatherAPI.getCurrentWeather()
         when {
             result.isSuccessful -> {
