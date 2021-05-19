@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.distillery.interview.R
 import com.distillery.interview.ui.adapters.WeatherCollectionAdapter
-import com.distillery.interview.util.Constants.CURRENT_WEATHER_SCREEN
-import com.distillery.interview.util.Constants.NEXT_DAYS_WEATHER_SCREEN
-import com.distillery.interview.util.Constants.TODAY_WEATHER_SCREEN
+import com.distillery.interview.ui.adapters.WeatherCollectionAdapter.Companion.CURRENT_WEATHER_SCREEN
+import com.distillery.interview.ui.adapters.WeatherCollectionAdapter.Companion.NEXT_DAYS_WEATHER_SCREEN
+import com.distillery.interview.ui.adapters.WeatherCollectionAdapter.Companion.TODAY_WEATHER_SCREEN
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
