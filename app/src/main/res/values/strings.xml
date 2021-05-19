@@ -3,10 +3,8 @@
     <string name="current_title">Current</string>
     <string name="today_title">Today</string>
     <string name="next_days_title">5 days</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="max_temp_text">Max: 25°</string>
-    <string name="min_temp_text">Min: 8°</string>
-    <string name="feels_like_text">Feels like: 20°</string>
-
+    <string name="temp_text">%1$s°</string>
+    <string name="max_temp_text">Max: %1$s°</string>
+    <string name="min_temp_text">Min: %1$s°</string>
+    <string name="feels_like_text">Feels like: %1$s°</string>
 </resources>

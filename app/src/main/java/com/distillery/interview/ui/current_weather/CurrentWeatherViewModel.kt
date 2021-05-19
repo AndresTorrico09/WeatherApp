@@ -7,6 +7,7 @@ import com.distillery.interview.data.api.WeatherAPI
 import com.distillery.interview.data.models.WeatherResponse
 import com.distillery.interview.util.Event
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -34,8 +35,9 @@ class CurrentWeatherViewModel(
     )
 
     fun getCurrentWeather() = viewModelScope.launch(Dispatchers.Default) {
-        val result = weatherAPI.getCurrentWeather()
+        withContext(Dispatchers.Main) { showLoading() }
 
+        val result = weatherAPI.getCurrentWeather()
         when {
             result.isSuccessful -> {
                 withContext(Dispatchers.Main) {
@@ -48,6 +50,10 @@ class CurrentWeatherViewModel(
                 }
             }
         }
+    }
+
+    private fun showLoading() {
+        emitUiModel(showLoading = true)
     }
 
     class Factory(

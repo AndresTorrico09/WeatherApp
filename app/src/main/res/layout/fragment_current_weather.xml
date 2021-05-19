@@ -36,16 +36,15 @@
             android:id="@+id/temp"
             style="@style/TempsTextStyle"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:text="15°"
-            android:textSize="@dimen/_80ssp"
+            android:text="@string/temp_text"
+            android:textSize="@dimen/_70ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/max_min_temps" />
 
         <TextView
             android:id="@+id/description"
             style="@style/TempsTextStyle"
-            android:layout_gravity="center"
-            android:text="Mostly Cloudy" />
+            android:layout_gravity="center" />
 
     </LinearLayout>
 
