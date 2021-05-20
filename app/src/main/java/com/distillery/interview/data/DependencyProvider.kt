@@ -33,4 +33,8 @@ object DependencyProvider {
     fun <T> provideRepository(): WeatherRepository {
         return WeatherRepository()
     }
+
+    fun <T> provideCoroutinesDispatcherProvider(): CoroutinesDispatcherProvider {
+        return CoroutinesDispatcherProvider()
+    }
 }
