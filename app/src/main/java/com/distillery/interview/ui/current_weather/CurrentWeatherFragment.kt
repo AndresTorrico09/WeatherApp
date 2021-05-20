@@ -10,14 +10,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.distillery.interview.R
 import com.distillery.interview.data.DependencyProvider
-import com.distillery.interview.data.api.WeatherAPI
+import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.WeatherResponse
 import com.distillery.interview.databinding.FragmentCurrentWeatherBinding
 
 class CurrentWeatherFragment : Fragment() {
 
-    private val weatherApi = DependencyProvider.provideService(WeatherAPI::class.java)
-    private val viewModelFactory = CurrentWeatherViewModel.Factory(this, null, weatherApi)
+    private val weatherRepository = DependencyProvider.provideRepository<WeatherRepository>()
+    private val viewModelFactory = CurrentWeatherViewModel.Factory(this, null, weatherRepository)
     private val viewModel: CurrentWeatherViewModel by activityViewModels { viewModelFactory }
     private lateinit var binding: FragmentCurrentWeatherBinding
 

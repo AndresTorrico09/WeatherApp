@@ -3,16 +3,16 @@ package com.distillery.interview.ui.current_weather
 import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import com.distillery.interview.data.api.WeatherAPI
+import com.distillery.interview.data.WeatherRepository
+import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.models.WeatherResponse
 import com.distillery.interview.util.Event
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CurrentWeatherViewModel(
-    private val weatherAPI: WeatherAPI
+    private val weatherRepository: WeatherRepository
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<CurrentWeatherUiModel>()
@@ -37,17 +37,15 @@ class CurrentWeatherViewModel(
     fun getCurrentWeather() = viewModelScope.launch(Dispatchers.Default) {
         withContext(Dispatchers.Main) { showLoading() }
 
-        //TODO: Replace with call from Repository
-        val result = weatherAPI.getCurrentWeather()
-        when {
-            result.isSuccessful -> {
+        when (val result = weatherRepository.getCurrentWeather()) {
+            is Result.Success -> {
                 withContext(Dispatchers.Main) {
-                    emitUiModel(showSuccess = Event(result.body()))
+                    emitUiModel(showSuccess = Event(result.data))
                 }
             }
-            else -> {
+            is Result.Error -> {
                 withContext(Dispatchers.Main) {
-                    emitUiModel(showError = Event(result.message()))
+                    emitUiModel(showError = Event(result.errors.first()))
                 }
             }
         }
@@ -60,7 +58,7 @@ class CurrentWeatherViewModel(
     class Factory(
         owner: SavedStateRegistryOwner,
         defaultState: Bundle?,
-        private val weatherAPI: WeatherAPI
+        private val weatherRepository: WeatherRepository
     ) : AbstractSavedStateViewModelFactory(owner, defaultState) {
 
         @Suppress("UNCHECKED_CAST")
@@ -69,7 +67,7 @@ class CurrentWeatherViewModel(
             modelClass: Class<T>,
             handle: SavedStateHandle
         ): T {
-            return CurrentWeatherViewModel(weatherAPI) as T
+            return CurrentWeatherViewModel(weatherRepository) as T
         }
     }
 }
