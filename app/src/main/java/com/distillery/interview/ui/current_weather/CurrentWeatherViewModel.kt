@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import com.distillery.interview.data.api.WeatherAPI
+import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.models.WeatherResponse
 import com.distillery.interview.util.Event
 import kotlinx.coroutines.Dispatchers
@@ -15,46 +16,33 @@ class CurrentWeatherViewModel(
     private val weatherAPI: WeatherAPI
 ) : ViewModel() {
 
-    private val _uiState = MutableLiveData<CurrentWeatherUiModel>()
-    val uiState: LiveData<CurrentWeatherUiModel>
+    private val _uiState = MutableLiveData<Result<WeatherResponse>>()
+    val uiState: LiveData<Result<WeatherResponse>>
         get() = _uiState
 
-    private fun emitUiModel(
-        showLoading: Boolean = false,
-        showError: Event<String>? = null,
-        showSuccess: Event<WeatherResponse?>? = null
-    ) {
-        val uiModel = CurrentWeatherUiModel(showLoading, showError, showSuccess)
-        _uiState.value = uiModel
-    }
-
-    data class CurrentWeatherUiModel(
-        val showLoading: Boolean,
-        val showError: Event<String>?,
-        val showSuccess: Event<WeatherResponse?>?
-    )
-
     fun getCurrentWeather() = viewModelScope.launch(Dispatchers.Default) {
-        withContext(Dispatchers.Main) { showLoading() }
+        withContext(Dispatchers.Main) {
+            _uiState.value = Result.Loading()
+        }
 
         //TODO: Replace with call from Repository
-        val result = weatherAPI.getCurrentWeather()
-        when {
-            result.isSuccessful -> {
-                withContext(Dispatchers.Main) {
-                    emitUiModel(showSuccess = Event(result.body()))
+        try {
+            val response = weatherAPI.getCurrentWeather()
+            when {
+                response.isSuccessful -> {
+                    withContext(Dispatchers.Main) {
+                        _uiState.value = Result.Success(response.body()!!)
+                    }
+                }
+                else -> {
+                    withContext(Dispatchers.Main) {
+                        _uiState.value = Result.Error(listOf(response.message()))
+                    }
                 }
             }
-            else -> {
-                withContext(Dispatchers.Main) {
-                    emitUiModel(showError = Event(result.message()))
-                }
-            }
+        } catch (e: Exception) {
+            _uiState.value = Result.Error(listOf(e.message.toString()))
         }
-    }
-
-    private fun showLoading() {
-        emitUiModel(showLoading = true)
     }
 
     class Factory(
