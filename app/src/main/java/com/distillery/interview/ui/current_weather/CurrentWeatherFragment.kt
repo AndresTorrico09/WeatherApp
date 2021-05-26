@@ -17,7 +17,7 @@ import com.distillery.interview.data.models.*
 class CurrentWeatherFragment : Fragment() {
 
     private val weatherApi = DependencyProvider.provideService(WeatherAPI::class.java)
-    private val viewModelFactory = CurrentWeatherViewModel.Factory(this, null, weatherApi)
+    private val viewModelFactory = CurrentWeatherViewModel.Factory(this, weatherApi)
     private val viewModel: CurrentWeatherViewModel by activityViewModels { viewModelFactory }
     private lateinit var binding: FragmentCurrentWeatherBinding
 

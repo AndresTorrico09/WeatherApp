@@ -17,8 +17,7 @@ class CurrentWeatherViewModel(
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<Result<WeatherResponse>>()
-    val uiState: LiveData<Result<WeatherResponse>>
-        get() = _uiState
+    val uiState: LiveData<Result<WeatherResponse>> = _uiState
 
     fun getCurrentWeather() = viewModelScope.launch(Dispatchers.Default) {
         withContext(Dispatchers.Main) {
@@ -47,9 +46,8 @@ class CurrentWeatherViewModel(
 
     class Factory(
         owner: SavedStateRegistryOwner,
-        defaultState: Bundle?,
         private val weatherAPI: WeatherAPI
-    ) : AbstractSavedStateViewModelFactory(owner, defaultState) {
+    ) : AbstractSavedStateViewModelFactory(owner, null) {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(
