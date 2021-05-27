@@ -7,7 +7,6 @@ import com.distillery.interview.data.CoroutinesDispatcherProvider
 import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.models.WeatherResponse
-import com.distillery.interview.util.Event
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -16,52 +15,33 @@ class CurrentWeatherViewModel(
     private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
-    private val _uiState = MutableLiveData<CurrentWeatherUiModel>()
-    val uiState: LiveData<CurrentWeatherUiModel>
-        get() = _uiState
-
-    private fun emitUiModel(
-        showLoading: Boolean = false,
-        showError: Event<String>? = null,
-        showSuccess: Event<WeatherResponse?>? = null
-    ) {
-        val uiModel = CurrentWeatherUiModel(showLoading, showError, showSuccess)
-        _uiState.value = uiModel
-    }
-
-    data class CurrentWeatherUiModel(
-        val showLoading: Boolean,
-        val showError: Event<String>?,
-        val showSuccess: Event<WeatherResponse?>?
-    )
+    private val _uiState = MutableLiveData<Result<WeatherResponse>>()
+    val uiState: LiveData<Result<WeatherResponse>> = _uiState
 
     fun getCurrentWeather() = viewModelScope.launch(coroutinesDispatcherProvider.default) {
-        withContext(coroutinesDispatcherProvider.main) { showLoading() }
+        withContext(coroutinesDispatcherProvider.main) {
+            _uiState.value = Result.Loading()
+        }
 
         when (val result = weatherRepository.getCurrentWeather()) {
             is Result.Success -> {
                 withContext(coroutinesDispatcherProvider.main) {
-                    emitUiModel(showSuccess = Event(result.data))
+                    _uiState.value = Result.Success(result.data)
                 }
             }
             is Result.Error -> {
                 withContext(coroutinesDispatcherProvider.main) {
-                    emitUiModel(showError = Event(result.errors.first()))
+                    _uiState.value = Result.Error(result.errors)
                 }
             }
         }
     }
 
-    private fun showLoading() {
-        emitUiModel(showLoading = true)
-    }
-
     class Factory(
         owner: SavedStateRegistryOwner,
-        defaultState: Bundle?,
         private val weatherRepository: WeatherRepository,
         private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider
-    ) : AbstractSavedStateViewModelFactory(owner, defaultState) {
+    ) : AbstractSavedStateViewModelFactory(owner, null) {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(

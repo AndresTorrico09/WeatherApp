@@ -1,6 +1,7 @@
 package com.distillery.interview.data.api
 
 import com.distillery.interview.BuildConfig
+import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.models.WeatherResponse
 import retrofit2.Response
 import retrofit2.http.GET
