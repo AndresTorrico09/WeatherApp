@@ -1,6 +1,5 @@
 package com.distillery.interview.ui.current_weather
 
-import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import com.distillery.interview.data.CoroutinesDispatcherProvider
@@ -23,17 +22,21 @@ class CurrentWeatherViewModel(
             _uiState.value = Result.Loading()
         }
 
-        when (val result = weatherRepository.getCurrentWeather()) {
-            is Result.Success -> {
-                withContext(coroutinesDispatcherProvider.main) {
-                    _uiState.value = Result.Success(result.data)
+        try {
+            when (val result = weatherRepository.getCurrentWeather()) {
+                is Result.Success -> {
+                    withContext(coroutinesDispatcherProvider.main) {
+                        _uiState.value = Result.Success(result.data)
+                    }
+                }
+                is Result.Error -> {
+                    withContext(coroutinesDispatcherProvider.main) {
+                        _uiState.value = Result.Error(result.errors)
+                    }
                 }
             }
-            is Result.Error -> {
-                withContext(coroutinesDispatcherProvider.main) {
-                    _uiState.value = Result.Error(result.errors)
-                }
-            }
+        } catch (e: Exception) {
+            _uiState.value = Result.Error(listOf(e.message.toString()))
         }
     }
 
