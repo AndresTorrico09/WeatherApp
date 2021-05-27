@@ -1,14 +1,11 @@
 package com.distillery.interview.ui.current_weather
 
-import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import com.distillery.interview.data.api.WeatherAPI
 import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.models.WeatherResponse
-import com.distillery.interview.util.Event
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
