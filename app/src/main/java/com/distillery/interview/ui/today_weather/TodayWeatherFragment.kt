@@ -7,16 +7,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.distillery.interview.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.distillery.interview.data.CoroutinesDispatcherProvider
 import com.distillery.interview.data.DependencyProvider
 import com.distillery.interview.data.WeatherRepository
+import com.distillery.interview.data.models.Hourly
 import com.distillery.interview.data.models.HourlyWeatherResponse
 import com.distillery.interview.data.models.Result
 import com.distillery.interview.databinding.FragmentTodayWeatherBinding
-import com.distillery.interview.util.toDateTime
-import java.text.SimpleDateFormat
-import java.util.*
+import com.distillery.interview.util.toDate
 
 class TodayWeatherFragment : Fragment() {
 
@@ -28,6 +27,7 @@ class TodayWeatherFragment : Fragment() {
         TodayWeatherViewModel.Factory(this, weatherRepository, coroutinesDispatcherProvider)
     private val viewModel: TodayWeatherViewModel by activityViewModels { viewModelFactory }
     private lateinit var binding: FragmentTodayWeatherBinding
+    private lateinit var hourlyWeatherAdapter: HourlyWeatherAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,14 +55,22 @@ class TodayWeatherFragment : Fragment() {
             }
         })
         viewModel.getTodayHourlyWeather()
+
+        setupRecyclerView()
     }
 
     private fun setValues(hourlyWeatherResponse: HourlyWeatherResponse) {
-        binding.apply {
-            with(hourlyWeatherResponse) {
-                dateToday.text = hourly[0].dt.toDateTime()
-            }
-        }
+        binding.dateToday.text = hourlyWeatherResponse.hourly[0].dt.toDate()
+        hourlyWeatherAdapter.setItems(hourlyWeatherResponse.hourly as ArrayList<Hourly>)
+    }
+
+    private fun setupRecyclerView() {
+        hourlyWeatherAdapter = HourlyWeatherAdapter()
+        binding.rvHourlyWeather.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL, false
+        )
+        binding.rvHourlyWeather.adapter = hourlyWeatherAdapter
     }
 
     private fun showError(err: String) {
