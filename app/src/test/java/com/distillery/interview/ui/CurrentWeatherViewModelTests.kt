@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.distillery.interview.util.MainCoroutineRule
 import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.Result
-import com.distillery.interview.data.models.WeatherResponse
+import com.distillery.interview.data.models.CurrentWeatherResponse
 import com.distillery.interview.util.getOrAwaitValue
 import com.distillery.interview.util.provideFakeCoroutinesDispatcherProvider
 import com.distillery.interview.ui.current_weather.CurrentWeatherViewModel
@@ -38,7 +38,7 @@ class CurrentWeatherViewModelTests {
     @Test
     fun getCurrentWeather_returnSuccessResponse() = runBlockingTest {
         //GIVEN: I want to know what is the current weather
-        val mockWeatherResponse = mock<WeatherResponse>()
+        val mockWeatherResponse = mock<CurrentWeatherResponse>()
 
         whenever(weatherRepository.getCurrentWeather()).thenReturn(
             Result.Success(mockWeatherResponse)

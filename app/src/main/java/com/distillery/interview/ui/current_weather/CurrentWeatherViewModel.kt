@@ -5,7 +5,7 @@ import androidx.savedstate.SavedStateRegistryOwner
 import com.distillery.interview.data.CoroutinesDispatcherProvider
 import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.Result
-import com.distillery.interview.data.models.WeatherResponse
+import com.distillery.interview.data.models.CurrentWeatherResponse
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -14,8 +14,8 @@ class CurrentWeatherViewModel(
     private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
-    private val _uiState = MutableLiveData<Result<WeatherResponse>>()
-    val uiState: LiveData<Result<WeatherResponse>> = _uiState
+    private val _uiState = MutableLiveData<Result<CurrentWeatherResponse>>()
+    val uiState: LiveData<Result<CurrentWeatherResponse>> = _uiState
 
     fun getCurrentWeather() = viewModelScope.launch(coroutinesDispatcherProvider.default) {
         withContext(coroutinesDispatcherProvider.main) {

@@ -11,7 +11,7 @@ import com.distillery.interview.R
 import com.distillery.interview.data.CoroutinesDispatcherProvider
 import com.distillery.interview.data.DependencyProvider
 import com.distillery.interview.data.WeatherRepository
-import com.distillery.interview.data.models.WeatherResponse
+import com.distillery.interview.data.models.CurrentWeatherResponse
 import com.distillery.interview.databinding.FragmentCurrentWeatherBinding
 import com.distillery.interview.data.models.*
 
@@ -54,9 +54,9 @@ class CurrentWeatherFragment : Fragment() {
         viewModel.getCurrentWeather()
     }
 
-    private fun setValues(weatherResponse: WeatherResponse) {
+    private fun setValues(currentWeatherResponse: CurrentWeatherResponse) {
         binding.apply {
-            with(weatherResponse) {
+            with(currentWeatherResponse) {
                 description.text = weather.firstOrNull()?.main ?: ""
                 tempMax.text = getString(R.string.max_temp_text, main.temp_max.toString())
                 tempMin.text = getString(R.string.min_temp_text, main.temp_min.toString())
