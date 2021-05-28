@@ -10,4 +10,7 @@ class WeatherRepository {
 
     suspend fun getCurrentWeather(): Result<CurrentWeatherResponse> =
         Result.Success(weatherApi.getCurrentWeather())
+
+    suspend fun getHourlyWeather(): Result<HourlyWeatherResponse> =
+        Result.Success(weatherApi.getHourlyWeather())
 }

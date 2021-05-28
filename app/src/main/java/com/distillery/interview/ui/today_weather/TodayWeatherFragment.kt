@@ -1,60 +1,82 @@
 package com.distillery.interview.ui.today_weather
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.distillery.interview.R
+import com.distillery.interview.data.CoroutinesDispatcherProvider
+import com.distillery.interview.data.DependencyProvider
+import com.distillery.interview.data.WeatherRepository
+import com.distillery.interview.data.models.HourlyWeatherResponse
+import com.distillery.interview.data.models.Result
+import com.distillery.interview.databinding.FragmentTodayWeatherBinding
+import com.distillery.interview.util.toDateTime
+import java.text.SimpleDateFormat
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TodayWeatherFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TodayWeatherFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private val weatherRepository =
+        DependencyProvider.provideRepository<WeatherRepository>()
+    private val coroutinesDispatcherProvider =
+        DependencyProvider.provideCoroutinesDispatcherProvider<CoroutinesDispatcherProvider>()
+    private val viewModelFactory =
+        TodayWeatherViewModel.Factory(this, weatherRepository, coroutinesDispatcherProvider)
+    private val viewModel: TodayWeatherViewModel by activityViewModels { viewModelFactory }
+    private lateinit var binding: FragmentTodayWeatherBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentTodayWeatherBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.uiState.observe(viewLifecycleOwner, { weatherResponse ->
+            when (weatherResponse) {
+                is Result.Loading -> {
+                    showLoading()
+                }
+                is Result.Success -> {
+                    hideLoading()
+                    setValues(weatherResponse.data)
+                }
+                is Result.Error -> {
+                    hideLoading()
+                    showError(weatherResponse.errors.first())
+                }
+            }
+        })
+        viewModel.getTodayHourlyWeather()
+    }
+
+    private fun setValues(hourlyWeatherResponse: HourlyWeatherResponse) {
+        binding.apply {
+            with(hourlyWeatherResponse) {
+                dateToday.text = hourly[0].dt.toDateTime()
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_today_weather, container, false)
+    private fun showError(err: String) {
+        //TODO: Add custom error showing
+        Toast.makeText(requireContext(), err, Toast.LENGTH_LONG).show()
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TodayWeatherFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TodayWeatherFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun showLoading() {
+        //TODO: Add custom loading
+        Toast.makeText(requireContext(), "startLoading", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun hideLoading() {
+        //TODO: Add custom loading
+        Toast.makeText(requireContext(), "endLoading", Toast.LENGTH_SHORT).show()
     }
 }

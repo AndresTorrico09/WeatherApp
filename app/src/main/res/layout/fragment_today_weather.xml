@@ -8,19 +8,11 @@
     android:padding="@dimen/_15sdp">
 
     <TextView
-        android:id="@+id/temp_max"
+        android:id="@+id/date_today"
         style="@style/TempsTextStyle"
         android:paddingStart="0dp"
         android:paddingEnd="@dimen/_8sdp"
-        android:text="@string/max_temp_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/temp_min"
-        style="@style/TempsTextStyle"
-        android:text="@string/min_temp_text"
-        app:layout_constraintStart_toEndOf="@+id/temp_max"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
