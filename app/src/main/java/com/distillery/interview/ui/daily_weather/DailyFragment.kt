@@ -1,4 +1,4 @@
-package com.distillery.interview.ui.next_days_weather
+package com.distillery.interview.ui.daily_weather
 
 import android.os.Bundle
 import android.view.LayoutInflater

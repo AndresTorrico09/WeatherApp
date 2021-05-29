@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.HourlyWeatherResponse
 import com.distillery.interview.data.models.Result
-import com.distillery.interview.ui.today_weather.TodayWeatherViewModel
+import com.distillery.interview.ui.hourly_weather.HourlyWeatherViewModel
 import com.distillery.interview.util.MainCoroutineRule
 import com.distillery.interview.util.getOrAwaitValue
 import com.distillery.interview.util.provideFakeCoroutinesDispatcherProvider
@@ -18,7 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class TodayWeatherViewModelTests {
+class HourlyWeatherViewModelTests {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -26,17 +26,17 @@ class TodayWeatherViewModelTests {
     val coroutineRule = MainCoroutineRule()
 
     private lateinit var weatherRepository: WeatherRepository
-    private lateinit var viewModel: TodayWeatherViewModel
+    private lateinit var viewModel: HourlyWeatherViewModel
 
     @Before
     fun setUp() {
         weatherRepository = mock()
         viewModel =
-            TodayWeatherViewModel(weatherRepository, provideFakeCoroutinesDispatcherProvider())
+            HourlyWeatherViewModel(weatherRepository, provideFakeCoroutinesDispatcherProvider())
     }
 
     @Test
-    fun getTodayHourlyWeather_returnSuccessResponse() = runBlockingTest {
+    fun getHourlyWeather_returnSuccessResponse() = runBlockingTest {
         //GIVEN: I want to know what is the today weather
         val mockHourlyWeatherResponse = mock<HourlyWeatherResponse>()
 
@@ -45,7 +45,7 @@ class TodayWeatherViewModelTests {
         )
 
         //WHEN: I open my app or move to today weather screen
-        viewModel.getTodayHourlyWeather()
+        viewModel.getHourlyWeather()
 
         //THEN: I should to get today weather successfully
         Assert.assertEquals(
@@ -55,7 +55,7 @@ class TodayWeatherViewModelTests {
     }
 
     @Test
-    fun getTodayHourlyWeather_returnErrorResponse() = runBlockingTest {
+    fun getHourlyWeather_returnErrorResponse() = runBlockingTest {
         //GIVEN: I want to know what is the today weather
         val mockHourlyWeatherResponse = listOf("errorResponseMessage")
 
@@ -64,7 +64,7 @@ class TodayWeatherViewModelTests {
         )
 
         //WHEN: I open my app or move to today weather screen
-        viewModel.getTodayHourlyWeather()
+        viewModel.getHourlyWeather()
 
         //THEN: I should to get today weather unsuccessfully
         Assert.assertEquals(
