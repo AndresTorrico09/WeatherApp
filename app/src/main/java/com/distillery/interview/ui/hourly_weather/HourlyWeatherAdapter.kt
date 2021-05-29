@@ -1,4 +1,4 @@
-package com.distillery.interview.ui.today_weather
+package com.distillery.interview.ui.hourly_weather
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import com.distillery.interview.data.models.Hourly
 import com.distillery.interview.databinding.ItemHourlyWeatherBinding
 import com.distillery.interview.util.toTime
 
-class HourlyWeatherAdapter : RecyclerView.Adapter<MovieViewHolder>() {
+class HourlyWeatherAdapter : RecyclerView.Adapter<HourlyViewHolder>() {
 
     private val items = ArrayList<Hourly>()
 
@@ -19,26 +19,26 @@ class HourlyWeatherAdapter : RecyclerView.Adapter<MovieViewHolder>() {
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourlyViewHolder {
         val binding: ItemHourlyWeatherBinding =
             ItemHourlyWeatherBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieViewHolder(binding)
+        return HourlyViewHolder(binding)
     }
 
     override fun getItemCount(): Int = items.size
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: HourlyViewHolder, position: Int) =
         holder.bind(items[position])
 }
 
-class MovieViewHolder(private val itemBinding: ItemHourlyWeatherBinding) :
+class HourlyViewHolder(private val itemBinding: ItemHourlyWeatherBinding) :
     RecyclerView.ViewHolder(itemBinding.root) {
 
-    private lateinit var movie: Hourly
+    private lateinit var hourly: Hourly
 
     @SuppressLint("SetTextI18n")
     fun bind(item: Hourly) {
-        this.movie = item
+        this.hourly = item
         itemBinding.tvHour.text = item.dt.toTime()
         itemBinding.tvTemp.text =
             itemBinding.root.resources.getString(R.string.temp_text, item.temp.toString())

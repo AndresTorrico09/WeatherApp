@@ -1,4 +1,4 @@
-package com.distillery.interview.ui.today_weather
+package com.distillery.interview.ui.hourly_weather
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,19 +14,19 @@ import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.Hourly
 import com.distillery.interview.data.models.HourlyWeatherResponse
 import com.distillery.interview.data.models.Result
-import com.distillery.interview.databinding.FragmentTodayWeatherBinding
+import com.distillery.interview.databinding.FragmentHourlyWeatherBinding
 import com.distillery.interview.util.toDate
 
-class TodayWeatherFragment : Fragment() {
+class HourlyWeatherFragment : Fragment() {
 
     private val weatherRepository =
         DependencyProvider.provideRepository<WeatherRepository>()
     private val coroutinesDispatcherProvider =
         DependencyProvider.provideCoroutinesDispatcherProvider<CoroutinesDispatcherProvider>()
     private val viewModelFactory =
-        TodayWeatherViewModel.Factory(this, weatherRepository, coroutinesDispatcherProvider)
-    private val viewModel: TodayWeatherViewModel by activityViewModels { viewModelFactory }
-    private lateinit var binding: FragmentTodayWeatherBinding
+        HourlyWeatherViewModel.Factory(this, weatherRepository, coroutinesDispatcherProvider)
+    private val viewModel: HourlyWeatherViewModel by activityViewModels { viewModelFactory }
+    private lateinit var binding: FragmentHourlyWeatherBinding
     private lateinit var hourlyWeatherAdapter: HourlyWeatherAdapter
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class TodayWeatherFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTodayWeatherBinding.inflate(inflater, container, false)
+        binding = FragmentHourlyWeatherBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -54,7 +54,7 @@ class TodayWeatherFragment : Fragment() {
                 }
             }
         })
-        viewModel.getTodayHourlyWeather()
+        viewModel.getHourlyWeather()
 
         setupRecyclerView()
     }

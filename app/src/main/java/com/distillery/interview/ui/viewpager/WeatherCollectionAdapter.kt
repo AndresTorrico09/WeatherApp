@@ -1,11 +1,10 @@
 package com.distillery.interview.ui.viewpager
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.distillery.interview.ui.current_weather.CurrentWeatherFragment
-import com.distillery.interview.ui.next_days_weather.NextDaysFragment
-import com.distillery.interview.ui.today_weather.TodayWeatherFragment
+import com.distillery.interview.ui.hourly_weather.HourlyWeatherFragment
+import com.distillery.interview.ui.next_days_weather.DailyFragment
 
 class WeatherCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
@@ -15,11 +14,11 @@ class WeatherCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragme
         CURRENT_WEATHER_SCREEN -> {
             CurrentWeatherFragment()
         }
-        TODAY_WEATHER_SCREEN -> {
-            TodayWeatherFragment()
+        HOURLY_WEATHER_SCREEN -> {
+            HourlyWeatherFragment()
         }
-        NEXT_DAYS_WEATHER_SCREEN -> {
-            NextDaysFragment()
+        DAILY_WEATHER_SCREEN -> {
+            DailyFragment()
         }
         else -> CurrentWeatherFragment()
     }
@@ -27,7 +26,7 @@ class WeatherCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragme
     companion object {
         private const val VIEWPAGER_CANT_TABS = 3
         const val CURRENT_WEATHER_SCREEN = 0
-        const val TODAY_WEATHER_SCREEN = 1
-        const val NEXT_DAYS_WEATHER_SCREEN = 2
+        const val HOURLY_WEATHER_SCREEN = 1
+        const val DAILY_WEATHER_SCREEN = 2
     }
 }

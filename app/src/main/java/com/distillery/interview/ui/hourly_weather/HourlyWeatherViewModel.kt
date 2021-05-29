@@ -1,4 +1,4 @@
-package com.distillery.interview.ui.today_weather
+package com.distillery.interview.ui.hourly_weather
 
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
@@ -9,7 +9,7 @@ import com.distillery.interview.data.models.Result
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TodayWeatherViewModel(
+class HourlyWeatherViewModel(
     private val weatherRepository: WeatherRepository,
     private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider
 ) : ViewModel() {
@@ -17,7 +17,7 @@ class TodayWeatherViewModel(
     private val _uiState = MutableLiveData<Result<HourlyWeatherResponse>>()
     val uiState: LiveData<Result<HourlyWeatherResponse>> = _uiState
 
-    fun getTodayHourlyWeather() = viewModelScope.launch(coroutinesDispatcherProvider.default) {
+    fun getHourlyWeather() = viewModelScope.launch(coroutinesDispatcherProvider.default) {
         withContext(coroutinesDispatcherProvider.main) {
             _uiState.value = Result.Loading()
         }
@@ -52,7 +52,7 @@ class TodayWeatherViewModel(
             modelClass: Class<T>,
             handle: SavedStateHandle
         ): T {
-            return TodayWeatherViewModel(weatherRepository, coroutinesDispatcherProvider) as T
+            return HourlyWeatherViewModel(weatherRepository, coroutinesDispatcherProvider) as T
         }
     }
 }

@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.distillery.interview.R
 import com.distillery.interview.ui.viewpager.WeatherCollectionAdapter.Companion.CURRENT_WEATHER_SCREEN
-import com.distillery.interview.ui.viewpager.WeatherCollectionAdapter.Companion.NEXT_DAYS_WEATHER_SCREEN
-import com.distillery.interview.ui.viewpager.WeatherCollectionAdapter.Companion.TODAY_WEATHER_SCREEN
+import com.distillery.interview.ui.viewpager.WeatherCollectionAdapter.Companion.DAILY_WEATHER_SCREEN
+import com.distillery.interview.ui.viewpager.WeatherCollectionAdapter.Companion.HOURLY_WEATHER_SCREEN
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -40,10 +40,10 @@ class WeatherCollectionFragment : Fragment() {
                 CURRENT_WEATHER_SCREEN -> {
                     tab.text = getString(R.string.current_title)
                 }
-                TODAY_WEATHER_SCREEN -> {
+                HOURLY_WEATHER_SCREEN -> {
                     tab.text = getString(R.string.today_title)
                 }
-                NEXT_DAYS_WEATHER_SCREEN -> {
+                DAILY_WEATHER_SCREEN -> {
                     tab.text = getString(R.string.next_days_title)
                 }
             }
