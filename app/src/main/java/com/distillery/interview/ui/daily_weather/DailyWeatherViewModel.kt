@@ -1,29 +1,29 @@
-package com.distillery.interview.ui.hourly_weather
+package com.distillery.interview.ui.daily_weather
 
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import com.distillery.interview.data.CoroutinesDispatcherProvider
 import com.distillery.interview.data.WeatherRepository
-import com.distillery.interview.data.models.HourlyWeatherResponse
+import com.distillery.interview.data.models.DailyWeatherResponse
 import com.distillery.interview.data.models.Result
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HourlyWeatherViewModel(
+class DailyWeatherViewModel(
     private val weatherRepository: WeatherRepository,
     private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
-    private val _uiState = MutableLiveData<Result<HourlyWeatherResponse>>()
-    val uiState: LiveData<Result<HourlyWeatherResponse>> = _uiState
+    private val _uiState = MutableLiveData<Result<DailyWeatherResponse>>()
+    val uiState: LiveData<Result<DailyWeatherResponse>> = _uiState
 
-    fun getHourlyWeather() = viewModelScope.launch(coroutinesDispatcherProvider.default) {
+    fun getDailyWeather() = viewModelScope.launch(coroutinesDispatcherProvider.default) {
         withContext(coroutinesDispatcherProvider.main) {
             _uiState.value = Result.Loading()
         }
 
         try {
-            when (val result = weatherRepository.getHourlyWeather()) {
+            when (val result = weatherRepository.getDailyWeather()) {
                 is Result.Success -> {
                     withContext(coroutinesDispatcherProvider.main) {
                         _uiState.value = Result.Success(result.data)
@@ -54,7 +54,7 @@ class HourlyWeatherViewModel(
             modelClass: Class<T>,
             handle: SavedStateHandle
         ): T {
-            return HourlyWeatherViewModel(weatherRepository, coroutinesDispatcherProvider) as T
+            return DailyWeatherViewModel(weatherRepository, coroutinesDispatcherProvider) as T
         }
     }
 }
