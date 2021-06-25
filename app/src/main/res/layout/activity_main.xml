@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     android:id="@+id/root">
 
     <Button
-        android:id="@+id/btn_notification"
+        android:id="@+id/btn_basic_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Launch Basic Style Notification" />
+
+    <Button
+        android:id="@+id/btn_inbox_notification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Launch Inbox Style Notification" />
-</FrameLayout>
+</LinearLayout>

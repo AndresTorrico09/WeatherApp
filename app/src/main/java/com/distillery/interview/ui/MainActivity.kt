@@ -12,12 +12,11 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.distillery.interview.R
 import com.distillery.interview.databinding.ActivityMainBinding
+import com.distillery.interview.notifications.BasicStyleMockData
 import com.distillery.interview.notifications.InboxStyleMockData
 import com.distillery.interview.notifications.NotificationUtil
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
-
-    private val NOTIFICATION_ID = 888
     private lateinit var mNotificationManagerCompat: NotificationManagerCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,12 +26,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         mNotificationManagerCompat = NotificationManagerCompat.from(this@MainActivity)
 
-        binding.btnNotification.setOnClickListener(this)
+        binding.btnInboxNotification.setOnClickListener(this)
+        binding.btnBasicNotification.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
-        if (v.id == R.id.btn_notification) {
-            generateInboxStyleNotification()
+        when (v.id) {
+            R.id.btn_inbox_notification -> {
+                generateInboxStyleNotification()
+            }
+            R.id.btn_basic_notification -> {
+                generateBasicStyleNotification()
+            }
         }
     }
 
@@ -56,13 +61,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         )
 
         val notification =
-            buildNotificationContent(notificationChannelId, inboxStyle, notificationTapAction)
+            buildInboxStyleNotification(notificationChannelId, inboxStyle, notificationTapAction)
 
-        mNotificationManagerCompat.notify(NOTIFICATION_ID, notification)
+        mNotificationManagerCompat.notify(INBOX_NOTIFICATION_ID, notification)
 
     }
 
-    private fun buildNotificationContent(
+    private fun buildInboxStyleNotification(
         notificationChannelId: String,
         inboxStyle: NotificationCompat.InboxStyle?,
         notificationTapAction: PendingIntent?
@@ -95,5 +100,49 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         return notificationCompatBuilder.build()
+    }
+
+
+    private fun generateBasicStyleNotification() {
+        val notificationChannelId =
+            NotificationUtil().createBasicStyleNotificationChannel(this)
+
+        val notificationTapAction = PendingIntent.getActivity(
+            this, 0,
+            Intent(this, MainActivity::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val notification = buildBasicStyleNotification(
+            notificationChannelId, notificationTapAction
+        )
+
+        mNotificationManagerCompat.notify(BASIC_NOTIFICATION_ID, notification)
+    }
+
+    private fun buildBasicStyleNotification(
+        notificationChannelId: String,
+        notificationTapAction: PendingIntent?
+    ): Notification {
+
+        val notificationCompatBuilder = NotificationCompat.Builder(
+            applicationContext, notificationChannelId
+        )
+
+        notificationCompatBuilder
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle(BasicStyleMockData.mContentTitle)
+            .setContentText(BasicStyleMockData.mContentText)
+            .setPriority(BasicStyleMockData.mPriority)
+            .setContentIntent(notificationTapAction)
+            .setAutoCancel(true)
+
+        return notificationCompatBuilder.build()
+
+    }
+
+    companion object {
+        const val INBOX_NOTIFICATION_ID = 888
+        const val BASIC_NOTIFICATION_ID = 999
     }
 }

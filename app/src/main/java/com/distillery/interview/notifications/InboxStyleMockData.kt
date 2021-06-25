@@ -6,11 +6,19 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 
 object InboxStyleMockData {
+    const val mChannelId = "channel_email_1"
+    const val mChannelName = "Sample Email"
+    const val mChannelDescription = "Sample Email Notifications"
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    const val mChannelImportance = NotificationManager.IMPORTANCE_DEFAULT
+    const val mChannelEnableVibrate = true
+    const val mChannelLockscreenVisibility = NotificationCompat.VISIBILITY_PRIVATE
+
     const val mContentTitle = "5 new emails"
     const val mContentText = "from Jane, Jay, Alex +2 more"
     const val nNumberOfNewEmails = 5
     const val mPriority = NotificationCompat.PRIORITY_DEFAULT
-
     const val mBigContentTitle = "5 new emails from Jane, Jay, Alex +2"
     const val mSummaryText = "New emails"
 
@@ -37,14 +45,4 @@ object InboxStyleMockData {
 
         return list
     }
-
-    const val mChannelId = "channel_email_1"
-    const val mChannelName = "Sample Email"
-
-    const val mChannelDescription = "Sample Email Notifications"
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    const val mChannelImportance = NotificationManager.IMPORTANCE_DEFAULT
-    const val mChannelEnableVibrate = true
-    const val mChannelLockscreenVisibility = NotificationCompat.VISIBILITY_PRIVATE
 }
