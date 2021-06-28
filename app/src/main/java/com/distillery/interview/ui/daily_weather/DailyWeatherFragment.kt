@@ -10,10 +10,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.distillery.interview.data.CoroutinesDispatcherProvider
 import com.distillery.interview.data.DependencyProvider
-import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.Daily
 import com.distillery.interview.data.models.DailyWeatherResponse
 import com.distillery.interview.data.models.Result
+import com.distillery.interview.data.source.WeatherRepository
 import com.distillery.interview.databinding.FragmentDailyWeatherBinding
 
 class DailyWeatherFragment : Fragment() {

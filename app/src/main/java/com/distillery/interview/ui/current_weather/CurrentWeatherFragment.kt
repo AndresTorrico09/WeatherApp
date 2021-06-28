@@ -10,10 +10,10 @@ import androidx.fragment.app.activityViewModels
 import com.distillery.interview.R
 import com.distillery.interview.data.CoroutinesDispatcherProvider
 import com.distillery.interview.data.DependencyProvider
-import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.CurrentWeatherResponse
+import com.distillery.interview.data.models.Result
+import com.distillery.interview.data.source.WeatherRepository
 import com.distillery.interview.databinding.FragmentCurrentWeatherBinding
-import com.distillery.interview.data.models.*
 
 class CurrentWeatherFragment : Fragment() {
 
