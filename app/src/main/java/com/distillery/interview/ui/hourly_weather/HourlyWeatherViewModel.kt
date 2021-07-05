@@ -3,9 +3,9 @@ package com.distillery.interview.ui.hourly_weather
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import com.distillery.interview.data.CoroutinesDispatcherProvider
-import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.HourlyWeatherResponse
 import com.distillery.interview.data.models.Result
+import com.distillery.interview.data.source.WeatherRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

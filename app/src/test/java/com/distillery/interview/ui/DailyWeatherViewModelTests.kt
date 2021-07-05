@@ -1,9 +1,9 @@
 package com.distillery.interview.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.DailyWeatherResponse
 import com.distillery.interview.data.models.Result
+import com.distillery.interview.data.source.WeatherRepository
 import com.distillery.interview.ui.daily_weather.DailyWeatherViewModel
 import com.distillery.interview.util.MainCoroutineRule
 import com.distillery.interview.util.getOrAwaitValue

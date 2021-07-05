@@ -1,13 +1,13 @@
 package com.distillery.interview.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.distillery.interview.util.MainCoroutineRule
-import com.distillery.interview.data.WeatherRepository
-import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.models.CurrentWeatherResponse
+import com.distillery.interview.data.models.Result
+import com.distillery.interview.data.source.WeatherRepository
+import com.distillery.interview.ui.current_weather.CurrentWeatherViewModel
+import com.distillery.interview.util.MainCoroutineRule
 import com.distillery.interview.util.getOrAwaitValue
 import com.distillery.interview.util.provideFakeCoroutinesDispatcherProvider
-import com.distillery.interview.ui.current_weather.CurrentWeatherViewModel
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi

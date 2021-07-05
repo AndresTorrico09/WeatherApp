@@ -10,10 +10,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.distillery.interview.data.CoroutinesDispatcherProvider
 import com.distillery.interview.data.DependencyProvider
-import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.Hourly
 import com.distillery.interview.data.models.HourlyWeatherResponse
 import com.distillery.interview.data.models.Result
+import com.distillery.interview.data.source.WeatherRepository
 import com.distillery.interview.databinding.FragmentHourlyWeatherBinding
 import com.distillery.interview.util.toDate
 

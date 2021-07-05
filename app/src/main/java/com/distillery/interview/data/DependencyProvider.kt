@@ -2,6 +2,7 @@ package com.distillery.interview.data
 
 import com.distillery.interview.data.api.ApiKeyInterceptor
 import com.distillery.interview.data.api.WeatherAPI
+import com.distillery.interview.data.source.WeatherRepository
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
