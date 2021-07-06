@@ -1,9 +1,7 @@
 package com.distillery.interview.ui.current_weather
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,7 +12,7 @@ import com.distillery.interview.data.source.WeatherRepository
 import com.distillery.interview.data.source.remote.WeatherRemoteDataSource
 import com.distillery.interview.databinding.FragmentCurrentWeatherBinding
 
-class CurrentWeatherFragment : Fragment() {
+class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
 
     private val viewModel: CurrentWeatherViewModel by viewModels {
         CurrentWeatherViewModel.Factory(
@@ -25,16 +23,10 @@ class CurrentWeatherFragment : Fragment() {
     }
     private lateinit var binding: FragmentCurrentWeatherBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = FragmentCurrentWeatherBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentCurrentWeatherBinding.bind(view)
+
         viewModel.getCurrentWeather().observe(viewLifecycleOwner, { weatherResponse ->
             when (weatherResponse) {
                 is Result.Loading -> {
