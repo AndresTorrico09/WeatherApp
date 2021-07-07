@@ -12,12 +12,7 @@ class CurrentWeatherViewModel(
 
     fun getCurrentWeather() = liveData {
         emit(Result.Loading())
-
-        try {
-            emit(weatherRepository.getCurrentWeather())
-        } catch (e: Exception) {
-            emit(Result.Error(e))
-        }
+        emit(weatherRepository.getCurrentWeather())
     }
 
     class Factory(
