@@ -17,7 +17,7 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
     private val viewModel: CurrentWeatherViewModel by viewModels {
         CurrentWeatherViewModel.Factory(
             WeatherRepository(
-                WeatherRemoteDataSource
+                WeatherRemoteDataSource()
             )
         )
     }

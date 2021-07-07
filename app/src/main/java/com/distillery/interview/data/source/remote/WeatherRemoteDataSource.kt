@@ -7,7 +7,7 @@ import com.distillery.interview.data.models.WeatherResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-object WeatherRemoteDataSource : WeatherDataSource {
+class WeatherRemoteDataSource : WeatherDataSource {
 
     private val weatherApi = DependencyProvider.provideService(WeatherAPI::class.java)
 
