@@ -11,11 +11,12 @@ object WeatherRemoteDataSource : WeatherDataSource {
 
     private val weatherApi = DependencyProvider.provideService(WeatherAPI::class.java)
 
-    override suspend fun getCurrentWeather(): Result<WeatherResponse> {
-        val response = withContext(Dispatchers.IO) {
-            weatherApi.getCurrentWeather()
+    override suspend fun getCurrentWeather(): Result<WeatherResponse> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                Result.Success(weatherApi.getCurrentWeather())
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
         }
-        return Result.Success(response)
-    }
-
 }
