@@ -1,16 +1,16 @@
-package com.distillery.interview.ui.adapters
+package com.distillery.interview.ui.viewpager
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.distillery.interview.ui.fragments.WeatherObjectFragment
+import com.distillery.interview.ui.current_weather.CurrentWeatherFragment
 
 class WeatherCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = VIEWPAGER_CANT_TABS
 
     override fun createFragment(position: Int): Fragment {
-        val fragment = WeatherObjectFragment()
+        val fragment = CurrentWeatherFragment()
         fragment.arguments = Bundle().apply {
             when (position) {
                 CURRENT_WEATHER_SCREEN -> {
