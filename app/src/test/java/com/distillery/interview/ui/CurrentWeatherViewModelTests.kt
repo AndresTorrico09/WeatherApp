@@ -37,42 +37,36 @@ class CurrentWeatherViewModelTests {
 
     @Test
     fun getCurrentWeather_returnSuccessResponse() = runBlockingTest {
-        //GIVEN: I want to know what is the current weather
+        //GIVEN
         val mockWeatherResponse = mock<WeatherResponse>()
+        val mockSuccess = Result.Success(mockWeatherResponse)
+        whenever(weatherRepository.getCurrentWeather()).thenReturn(mockSuccess)
 
-        whenever(weatherRepository.getCurrentWeather()).thenReturn(
-            Result.Success(mockWeatherResponse)
-        )
+        //WHEN
+        val liveDataResponse = viewModel.getCurrentWeather()
 
-        pauseDispatcher()
-
-        val live = viewModel.getCurrentWeather()
-        val loading = live.getOrAwaitValue()
+        //THEN
+        val loading = liveDataResponse.getOrAwaitValue()
         Assert.assertTrue(loading is Result.Loading)
 
-        resumeDispatcher()
-
-        val success = live.getOrAwaitValue()
-        resumeDispatcher()
+        val success = liveDataResponse.getOrAwaitValue()
         Assert.assertTrue(success is Result.Success)
     }
 
     @Test
     fun getCurrentWeather_returnErrorResponse() = runBlockingTest {
-        whenever(weatherRepository.getCurrentWeather()).thenReturn(
-            Result.Error()
-        )
+        //GIVEN
+        val mockError = Result.Error()
+        whenever(weatherRepository.getCurrentWeather()).thenReturn(mockError)
 
-        pauseDispatcher()
+        //WHEN
+        val liveDataResponse = viewModel.getCurrentWeather()
 
-        val live = viewModel.getCurrentWeather()
-        val loading = live.getOrAwaitValue()
+        //THEN
+        val loading = liveDataResponse.getOrAwaitValue()
         Assert.assertTrue(loading is Result.Loading)
 
-        resumeDispatcher()
-
-        val success = live.getOrAwaitValue()
-        resumeDispatcher()
-        Assert.assertTrue(success is Result.Error)
+        val error = liveDataResponse.getOrAwaitValue()
+        Assert.assertTrue(error is Result.Error)
     }
 }
