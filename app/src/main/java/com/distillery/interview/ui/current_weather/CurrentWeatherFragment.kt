@@ -1,42 +1,33 @@
 package com.distillery.interview.ui.current_weather
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.distillery.interview.R
-import com.distillery.interview.data.CoroutinesDispatcherProvider
-import com.distillery.interview.data.DependencyProvider
-import com.distillery.interview.data.WeatherRepository
 import com.distillery.interview.data.models.CurrentWeatherResponse
+import com.distillery.interview.data.models.Result
+import com.distillery.interview.data.source.WeatherRepository
+import com.distillery.interview.data.source.remote.WeatherRemoteDataSource
 import com.distillery.interview.databinding.FragmentCurrentWeatherBinding
-import com.distillery.interview.data.models.*
 
-class CurrentWeatherFragment : Fragment() {
+class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
 
-    private val weatherRepository =
-        DependencyProvider.provideRepository<WeatherRepository>()
-    private val coroutinesDispatcherProvider =
-        DependencyProvider.provideCoroutinesDispatcherProvider<CoroutinesDispatcherProvider>()
-    private val viewModelFactory =
-        CurrentWeatherViewModel.Factory(this, weatherRepository, coroutinesDispatcherProvider)
-    private val viewModel: CurrentWeatherViewModel by activityViewModels { viewModelFactory }
+    private val viewModel: CurrentWeatherViewModel by viewModels {
+        CurrentWeatherViewModel.Factory(
+            WeatherRepository(
+                WeatherRemoteDataSource()
+            )
+        )
+    }
     private lateinit var binding: FragmentCurrentWeatherBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentCurrentWeatherBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.uiState.observe(viewLifecycleOwner, { weatherResponse ->
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentCurrentWeatherBinding.bind(view)
+
+        viewModel.getCurrentWeather().observe(viewLifecycleOwner, { weatherResponse ->
             when (weatherResponse) {
                 is Result.Loading -> {
                     showLoading()
@@ -47,16 +38,15 @@ class CurrentWeatherFragment : Fragment() {
                 }
                 is Result.Error -> {
                     hideLoading()
-                    showError(weatherResponse.errors.first())
+                    showError(weatherResponse.exception?.message.toString())
                 }
             }
         })
-        viewModel.getCurrentWeather()
     }
 
-    private fun setValues(currentWeatherResponse: CurrentWeatherResponse) {
+    private fun setValues(weatherResponse: CurrentWeatherResponse) {
         binding.apply {
-            with(currentWeatherResponse) {
+            with(weatherResponse) {
                 description.text = weather.firstOrNull()?.main ?: ""
                 tempMax.text = getString(R.string.max_temp_text, main.temp_max.toString())
                 tempMin.text = getString(R.string.min_temp_text, main.temp_min.toString())

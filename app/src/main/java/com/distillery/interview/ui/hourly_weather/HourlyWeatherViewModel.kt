@@ -1,58 +1,29 @@
 package com.distillery.interview.ui.hourly_weather
 
-import androidx.lifecycle.*
-import androidx.savedstate.SavedStateRegistryOwner
-import com.distillery.interview.data.CoroutinesDispatcherProvider
-import com.distillery.interview.data.WeatherRepository
-import com.distillery.interview.data.models.HourlyWeatherResponse
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.liveData
 import com.distillery.interview.data.models.Result
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.distillery.interview.data.source.WeatherRepository
 
 class HourlyWeatherViewModel(
     private val weatherRepository: WeatherRepository,
-    private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
-    private val _uiState = MutableLiveData<Result<HourlyWeatherResponse>>()
-    val uiState: LiveData<Result<HourlyWeatherResponse>> = _uiState
-
-    fun getHourlyWeather() = viewModelScope.launch(coroutinesDispatcherProvider.default) {
-        withContext(coroutinesDispatcherProvider.main) {
-            _uiState.value = Result.Loading()
-        }
-
-        try {
-            when (val result = weatherRepository.getHourlyWeather()) {
-                is Result.Success -> {
-                    withContext(coroutinesDispatcherProvider.main) {
-                        _uiState.value = Result.Success(result.data)
-                    }
-                }
-                is Result.Error -> {
-                    withContext(coroutinesDispatcherProvider.main) {
-                        _uiState.value = Result.Error(result.errors)
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            _uiState.value = Result.Error(listOf(e.message.toString()))
-        }
+    fun getHourlyWeather() = liveData {
+        emit(Result.Loading())
+        emit(weatherRepository.getHourlyWeather())
     }
 
     class Factory(
-        owner: SavedStateRegistryOwner,
         private val weatherRepository: WeatherRepository,
-        private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider
-    ) : AbstractSavedStateViewModelFactory(owner, null) {
+    ) : ViewModelProvider.Factory {
 
-        @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(
-            key: String,
             modelClass: Class<T>,
-            handle: SavedStateHandle
         ): T {
-            return HourlyWeatherViewModel(weatherRepository, coroutinesDispatcherProvider) as T
+            return modelClass.getConstructor(WeatherRepository::class.java)
+                .newInstance(weatherRepository)
         }
     }
 }
