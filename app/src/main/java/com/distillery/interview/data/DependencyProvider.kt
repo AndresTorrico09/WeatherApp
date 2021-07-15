@@ -29,12 +29,4 @@ object DependencyProvider {
     fun <T> provideService(service: Class<T>): T {
         return retrofit.create(service)
     }
-
-    fun <T> provideRepository(): WeatherRepository {
-        return WeatherRepository()
-    }
-
-    fun <T> provideCoroutinesDispatcherProvider(): CoroutinesDispatcherProvider {
-        return CoroutinesDispatcherProvider()
-    }
 }
