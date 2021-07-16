@@ -1,10 +1,10 @@
 package com.distillery.interview.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.distillery.interview.data.models.CurrentWeatherResponse
+import com.distillery.interview.data.models.HourlyWeatherResponse
 import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.source.WeatherRepository
-import com.distillery.interview.ui.current_weather.CurrentWeatherViewModel
+import com.distillery.interview.ui.hourly_weather.HourlyWeatherViewModel
 import com.distillery.interview.util.MainCoroutineRule
 import com.distillery.interview.util.getOrAwaitValue
 import com.nhaarman.mockitokotlin2.mock
@@ -17,8 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class CurrentWeatherViewModelTests {
-
+class HourlyWeatherViewModelTests {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -26,24 +25,24 @@ class CurrentWeatherViewModelTests {
     val coroutineRule = MainCoroutineRule()
 
     private lateinit var weatherRepository: WeatherRepository
-    private lateinit var viewModel: CurrentWeatherViewModel
+    private lateinit var viewModel: HourlyWeatherViewModel
 
     @Before
     fun setUp() {
         weatherRepository = mock()
         viewModel =
-            CurrentWeatherViewModel(weatherRepository)
+            HourlyWeatherViewModel(weatherRepository)
     }
 
     @Test
-    fun getCurrentWeather_returnSuccessResponse() = runBlockingTest {
+    fun getHourlyWeather_returnSuccessResponse() = runBlockingTest {
         //GIVEN
-        val mockWeatherResponse = mock<CurrentWeatherResponse>()
+        val mockWeatherResponse = mock<HourlyWeatherResponse>()
         val mockSuccess = Result.Success(mockWeatherResponse)
-        whenever(weatherRepository.getCurrentWeather()).thenReturn(mockSuccess)
+        whenever(weatherRepository.getHourlyWeather()).thenReturn(mockSuccess)
 
         //WHEN
-        val liveDataResponse = viewModel.getCurrentWeather()
+        val liveDataResponse = viewModel.getHourlyWeather()
 
         //THEN
         val loading = liveDataResponse.getOrAwaitValue()
@@ -54,13 +53,13 @@ class CurrentWeatherViewModelTests {
     }
 
     @Test
-    fun getCurrentWeather_returnErrorResponse() = runBlockingTest {
+    fun getHourlyWeather_returnErrorResponse() = runBlockingTest {
         //GIVEN
         val mockError = Result.Error()
-        whenever(weatherRepository.getCurrentWeather()).thenReturn(mockError)
+        whenever(weatherRepository.getHourlyWeather()).thenReturn(mockError)
 
         //WHEN
-        val liveDataResponse = viewModel.getCurrentWeather()
+        val liveDataResponse = viewModel.getHourlyWeather()
 
         //THEN
         val loading = liveDataResponse.getOrAwaitValue()

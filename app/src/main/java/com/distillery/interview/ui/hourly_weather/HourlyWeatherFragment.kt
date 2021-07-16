@@ -1,33 +1,37 @@
-package com.distillery.interview.ui.current_weather
+package com.distillery.interview.ui.hourly_weather
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.distillery.interview.R
-import com.distillery.interview.data.models.CurrentWeatherResponse
+import com.distillery.interview.data.models.Hourly
+import com.distillery.interview.data.models.HourlyWeatherResponse
 import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.source.WeatherRepository
 import com.distillery.interview.data.source.remote.WeatherRemoteDataSource
-import com.distillery.interview.databinding.FragmentCurrentWeatherBinding
+import com.distillery.interview.databinding.FragmentHourlyWeatherBinding
+import com.distillery.interview.util.toDate
 
-class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
+class HourlyWeatherFragment : Fragment(R.layout.fragment_hourly_weather) {
 
-    private val viewModel: CurrentWeatherViewModel by viewModels {
-        CurrentWeatherViewModel.Factory(
+    private val viewModel: HourlyWeatherViewModel by viewModels {
+        HourlyWeatherViewModel.Factory(
             WeatherRepository(
                 WeatherRemoteDataSource()
             )
         )
     }
-    private lateinit var binding: FragmentCurrentWeatherBinding
+    private lateinit var binding: FragmentHourlyWeatherBinding
+    private lateinit var hourlyWeatherAdapter: HourlyWeatherAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentCurrentWeatherBinding.bind(view)
+        binding = FragmentHourlyWeatherBinding.bind(view)
 
-        viewModel.getCurrentWeather().observe(viewLifecycleOwner, { weatherResponse ->
+        viewModel.getHourlyWeather().observe(viewLifecycleOwner, { weatherResponse ->
             when (weatherResponse) {
                 is Result.Loading -> {
                     showLoading()
@@ -42,16 +46,23 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
                 }
             }
         })
+        viewModel.getHourlyWeather()
+
+        setupRecyclerView()
     }
 
-    private fun setValues(weatherResponse: CurrentWeatherResponse) = binding.run {
-        with(weatherResponse) {
-            description.text = weather.firstOrNull()?.main ?: ""
-            tempMax.text = getString(R.string.max_temp_text, main.temp_max.toString())
-            tempMin.text = getString(R.string.min_temp_text, main.temp_min.toString())
-            temp.text = getString(R.string.temp_text, main.temp.toString())
-            feelsLike.text = getString(R.string.feels_like_text, main.feels_like.toString())
-        }
+    private fun setValues(hourlyWeatherResponse: HourlyWeatherResponse) {
+        binding.dateToday.text = hourlyWeatherResponse.hourly[0].dt.toDate()
+        hourlyWeatherAdapter.setItems(hourlyWeatherResponse.hourly as ArrayList<Hourly>)
+    }
+
+    private fun setupRecyclerView() {
+        hourlyWeatherAdapter = HourlyWeatherAdapter()
+        binding.rvHourlyWeather.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL, false
+        )
+        binding.rvHourlyWeather.adapter = hourlyWeatherAdapter
     }
 
     private fun showError(err: String) =

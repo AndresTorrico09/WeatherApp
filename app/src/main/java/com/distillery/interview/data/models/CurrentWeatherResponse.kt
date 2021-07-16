@@ -2,7 +2,7 @@ package com.distillery.interview.data.models
 
 import com.google.gson.annotations.SerializedName
 
-data class WeatherResponse(
+data class CurrentWeatherResponse(
     @SerializedName("coord") val coord: Coord,
     @SerializedName("weather") val weather: List<Weather>,
     @SerializedName("base") val base: String,
@@ -42,13 +42,6 @@ data class Sys(
     @SerializedName("country") val country: String,
     @SerializedName("sunrise") val sunrise: Int,
     @SerializedName("sunset") val sunset: Int
-)
-
-data class Weather(
-    @SerializedName("id") val id: Int,
-    @SerializedName("main") val main: String,
-    @SerializedName("description") val description: String,
-    @SerializedName("icon") val icon: String
 )
 
 data class Wind(

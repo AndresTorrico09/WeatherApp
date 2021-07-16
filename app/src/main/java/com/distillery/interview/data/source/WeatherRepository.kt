@@ -1,11 +1,15 @@
 package com.distillery.interview.data.source
 
+import com.distillery.interview.data.models.CurrentWeatherResponse
+import com.distillery.interview.data.models.HourlyWeatherResponse
 import com.distillery.interview.data.models.Result
-import com.distillery.interview.data.models.WeatherResponse
 import com.distillery.interview.data.source.remote.WeatherDataSource
 
 class WeatherRepository(private val weatherRemoteDataSource: WeatherDataSource) {
 
-    suspend fun getCurrentWeather(): Result<WeatherResponse> =
+    suspend fun getCurrentWeather(): Result<CurrentWeatherResponse> =
         weatherRemoteDataSource.getCurrentWeather()
+
+    suspend fun getHourlyWeather(): Result<HourlyWeatherResponse> =
+        weatherRemoteDataSource.getHourlyWeather()
 }
