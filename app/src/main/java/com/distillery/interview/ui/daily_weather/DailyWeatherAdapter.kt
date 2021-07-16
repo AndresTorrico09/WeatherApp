@@ -19,11 +19,12 @@ class DailyWeatherAdapter : RecyclerView.Adapter<DailyViewHolder>() {
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyViewHolder {
-        val binding: ItemDailyWeatherBinding =
-            ItemDailyWeatherBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return DailyViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyViewHolder =
+        DailyViewHolder(ItemDailyWeatherBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false)
+        )
 
     override fun getItemCount(): Int = items.size
 

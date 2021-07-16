@@ -1,13 +1,12 @@
 package com.distillery.interview.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.distillery.interview.util.MainCoroutineRule
-import com.distillery.interview.data.WeatherRepository
-import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.models.CurrentWeatherResponse
-import com.distillery.interview.util.getOrAwaitValue
-import com.distillery.interview.util.provideFakeCoroutinesDispatcherProvider
+import com.distillery.interview.data.models.Result
+import com.distillery.interview.data.source.WeatherRepository
 import com.distillery.interview.ui.current_weather.CurrentWeatherViewModel
+import com.distillery.interview.util.MainCoroutineRule
+import com.distillery.interview.util.getOrAwaitValue
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,6 +18,7 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class CurrentWeatherViewModelTests {
+
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -32,42 +32,41 @@ class CurrentWeatherViewModelTests {
     fun setUp() {
         weatherRepository = mock()
         viewModel =
-            CurrentWeatherViewModel(weatherRepository, provideFakeCoroutinesDispatcherProvider())
+            CurrentWeatherViewModel(weatherRepository)
     }
 
     @Test
     fun getCurrentWeather_returnSuccessResponse() = runBlockingTest {
-        //GIVEN: I want to know what is the current weather
+        //GIVEN
         val mockWeatherResponse = mock<CurrentWeatherResponse>()
+        val mockSuccess = Result.Success(mockWeatherResponse)
+        whenever(weatherRepository.getCurrentWeather()).thenReturn(mockSuccess)
 
-        whenever(weatherRepository.getCurrentWeather()).thenReturn(
-            Result.Success(mockWeatherResponse)
-        )
+        //WHEN
+        val liveDataResponse = viewModel.getCurrentWeather()
 
-        //WHEN: I open my app or move to current weather screen
-        viewModel.getCurrentWeather()
+        //THEN
+        val loading = liveDataResponse.getOrAwaitValue()
+        Assert.assertTrue(loading is Result.Loading)
 
-        //THEN: I should to get current weather successfully
-        Assert.assertEquals(
-            viewModel.uiState.getOrAwaitValue(),
-            Result.Success(mockWeatherResponse)
-        )
+        val success = liveDataResponse.getOrAwaitValue()
+        Assert.assertTrue(success is Result.Success)
     }
 
     @Test
     fun getCurrentWeather_returnErrorResponse() = runBlockingTest {
-        //GIVEN: I want to know what is the current weather
-        val mockWeatherResponse = listOf("errorResponseMessage")
+        //GIVEN
+        val mockError = Result.Error()
+        whenever(weatherRepository.getCurrentWeather()).thenReturn(mockError)
 
-        whenever(weatherRepository.getCurrentWeather()).thenReturn(
-            Result.Error(mockWeatherResponse)
-        )
+        //WHEN
+        val liveDataResponse = viewModel.getCurrentWeather()
 
-        //WHEN: I open my app or move to current weather screen
-        viewModel.getCurrentWeather()
+        //THEN
+        val loading = liveDataResponse.getOrAwaitValue()
+        Assert.assertTrue(loading is Result.Loading)
 
-        //THEN: I should to get current weather unsuccessfully
-        Assert.assertEquals(viewModel.uiState.getOrAwaitValue(), Result.Error(mockWeatherResponse))
-
+        val error = liveDataResponse.getOrAwaitValue()
+        Assert.assertTrue(error is Result.Error)
     }
 }
