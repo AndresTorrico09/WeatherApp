@@ -44,30 +44,22 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
         })
     }
 
-    private fun setValues(weatherResponse: CurrentWeatherResponse) {
-        binding.apply {
-            with(weatherResponse) {
-                description.text = weather.firstOrNull()?.main ?: ""
-                tempMax.text = getString(R.string.max_temp_text, main.temp_max.toString())
-                tempMin.text = getString(R.string.min_temp_text, main.temp_min.toString())
-                temp.text = getString(R.string.temp_text, main.temp.toString())
-                feelsLike.text = getString(R.string.feels_like_text, main.feels_like.toString())
-            }
+    private fun setValues(weatherResponse: CurrentWeatherResponse) = binding.run {
+        with(weatherResponse) {
+            description.text = weather.firstOrNull()?.main ?: ""
+            tempMax.text = getString(R.string.max_temp_text, main.temp_max.toString())
+            tempMin.text = getString(R.string.min_temp_text, main.temp_min.toString())
+            temp.text = getString(R.string.temp_text, main.temp.toString())
+            feelsLike.text = getString(R.string.feels_like_text, main.feels_like.toString())
         }
     }
 
-    private fun showError(err: String) {
-        //TODO: Add custom error showing
+    private fun showError(err: String) =
         Toast.makeText(requireContext(), err, Toast.LENGTH_LONG).show()
-    }
 
-    private fun showLoading() {
-        //TODO: Add custom loading
+    private fun showLoading() =
         Toast.makeText(requireContext(), "startLoading", Toast.LENGTH_SHORT).show()
-    }
 
-    private fun hideLoading() {
-        //TODO: Add custom loading
+    private fun hideLoading() =
         Toast.makeText(requireContext(), "endLoading", Toast.LENGTH_SHORT).show()
-    }
 }

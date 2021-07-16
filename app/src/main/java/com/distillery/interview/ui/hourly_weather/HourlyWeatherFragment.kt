@@ -65,18 +65,12 @@ class HourlyWeatherFragment : Fragment(R.layout.fragment_hourly_weather) {
         binding.rvHourlyWeather.adapter = hourlyWeatherAdapter
     }
 
-    private fun showError(err: String) {
-        //TODO: Add custom error showing
+    private fun showError(err: String) =
         Toast.makeText(requireContext(), err, Toast.LENGTH_LONG).show()
-    }
 
-    private fun showLoading() {
-        //TODO: Add custom loading
+    private fun showLoading() =
         Toast.makeText(requireContext(), "startLoading", Toast.LENGTH_SHORT).show()
-    }
 
-    private fun hideLoading() {
-        //TODO: Add custom loading
+    private fun hideLoading() =
         Toast.makeText(requireContext(), "endLoading", Toast.LENGTH_SHORT).show()
-    }
 }
