@@ -5,37 +5,24 @@ import com.distillery.interview.data.api.WeatherAPI
 import com.distillery.interview.data.models.CurrentWeatherResponse
 import com.distillery.interview.data.models.DailyWeatherResponse
 import com.distillery.interview.data.models.HourlyWeatherResponse
-import com.distillery.interview.data.models.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class WeatherRemoteDataSource : WeatherDataSource {
     private val weatherApi = DependencyProvider.provideService(WeatherAPI::class.java)
 
-    override suspend fun getCurrentWeather(): Result<CurrentWeatherResponse> =
+    override suspend fun getCurrentWeather(): CurrentWeatherResponse =
         withContext(Dispatchers.IO) {
-            return@withContext try {
-                Result.Success(weatherApi.getCurrentWeather())
-            } catch (e: Exception) {
-                Result.Error(e)
-            }
+            return@withContext weatherApi.getCurrentWeather()
         }
 
-    override suspend fun getHourlyWeather(): Result<HourlyWeatherResponse> =
+    override suspend fun getHourlyWeather(): HourlyWeatherResponse =
         withContext(Dispatchers.IO) {
-            return@withContext try {
-                Result.Success(weatherApi.getHourlyWeather())
-            } catch (e: Exception) {
-                Result.Error(e)
-            }
+            return@withContext weatherApi.getHourlyWeather()
         }
 
-    override suspend fun getDailyWeather(): Result<DailyWeatherResponse> =
+    override suspend fun getDailyWeather(): DailyWeatherResponse =
         withContext(Dispatchers.IO) {
-            return@withContext try {
-                Result.Success(weatherApi.getDailyWeather())
-            } catch (e: Exception) {
-                Result.Error(e)
-            }
+            return@withContext weatherApi.getDailyWeather()
         }
 }

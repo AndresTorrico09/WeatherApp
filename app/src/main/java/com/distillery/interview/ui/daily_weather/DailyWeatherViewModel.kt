@@ -12,7 +12,14 @@ class DailyWeatherViewModel(
 
     fun getDailyWeather() = liveData {
         emit(Result.Loading())
-        emit(weatherRepository.getDailyWeather())
+
+        runCatching {
+            weatherRepository.getDailyWeather()
+        }.onSuccess {
+            emit(Result.Success(it))
+        }.onFailure {
+            emit(Result.Error(it))
+        }
     }
 
     class Factory(

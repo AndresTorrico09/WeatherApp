@@ -3,13 +3,12 @@ package com.distillery.interview.data.source.remote
 import com.distillery.interview.data.models.CurrentWeatherResponse
 import com.distillery.interview.data.models.DailyWeatherResponse
 import com.distillery.interview.data.models.HourlyWeatherResponse
-import com.distillery.interview.data.models.Result
 
 interface WeatherDataSource {
-    suspend fun getCurrentWeather(): Result<CurrentWeatherResponse>
+    suspend fun getCurrentWeather(): CurrentWeatherResponse
 
-    suspend fun getHourlyWeather(): Result<HourlyWeatherResponse>
+    suspend fun getHourlyWeather(): HourlyWeatherResponse
 
-    suspend fun getDailyWeather(): Result<DailyWeatherResponse>
+    suspend fun getDailyWeather(): DailyWeatherResponse
 
 } 
