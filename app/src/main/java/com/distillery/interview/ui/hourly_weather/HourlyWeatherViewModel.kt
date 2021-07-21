@@ -12,7 +12,14 @@ class HourlyWeatherViewModel(
 
     fun getHourlyWeather() = liveData {
         emit(Result.Loading())
-        emit(weatherRepository.getHourlyWeather())
+
+        runCatching {
+            weatherRepository.getHourlyWeather()
+        }.onSuccess {
+            emit(Result.Success(it))
+        }.onFailure {
+            emit(Result.Error(it))
+        }
     }
 
     class Factory(
