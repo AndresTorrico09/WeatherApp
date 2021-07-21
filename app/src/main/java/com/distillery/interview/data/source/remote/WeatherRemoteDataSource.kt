@@ -12,17 +12,11 @@ class WeatherRemoteDataSource : WeatherDataSource {
     private val weatherApi = DependencyProvider.provideService(WeatherAPI::class.java)
 
     override suspend fun getCurrentWeather(): CurrentWeatherResponse =
-        withContext(Dispatchers.IO) {
-            return@withContext weatherApi.getCurrentWeather()
-        }
+        withContext(Dispatchers.IO) { weatherApi.getCurrentWeather() }
 
     override suspend fun getHourlyWeather(): HourlyWeatherResponse =
-        withContext(Dispatchers.IO) {
-            return@withContext weatherApi.getHourlyWeather()
-        }
+        withContext(Dispatchers.IO) { weatherApi.getHourlyWeather() }
 
     override suspend fun getDailyWeather(): DailyWeatherResponse =
-        withContext(Dispatchers.IO) {
-            return@withContext weatherApi.getDailyWeather()
-        }
+        withContext(Dispatchers.IO) { weatherApi.getDailyWeather() }
 }
