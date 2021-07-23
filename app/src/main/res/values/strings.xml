@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DistilleryInterview</string>
+    <string name="app_name">Weather App</string>
     <string name="current_title">Current</string>
     <string name="today_title">Today</string>
     <string name="next_days_title">5 days</string>
