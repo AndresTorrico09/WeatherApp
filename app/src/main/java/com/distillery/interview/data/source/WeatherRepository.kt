@@ -7,8 +7,8 @@ import com.distillery.interview.data.source.remote.WeatherDataSource
 
 class WeatherRepository(private val weatherRemoteDataSource: WeatherDataSource) {
 
-    suspend fun getCurrentWeather(): CurrentWeatherResponse =
-        weatherRemoteDataSource.getCurrentWeather()
+    suspend fun getCurrentWeather(lat: Double?, lon: Double?): CurrentWeatherResponse =
+        weatherRemoteDataSource.getCurrentWeather(lat, lon)
 
     suspend fun getHourlyWeather(): HourlyWeatherResponse =
         weatherRemoteDataSource.getHourlyWeather()

@@ -11,8 +11,8 @@ import kotlinx.coroutines.withContext
 class WeatherRemoteDataSource : WeatherDataSource {
     private val weatherApi = DependencyProvider.provideService(WeatherAPI::class.java)
 
-    override suspend fun getCurrentWeather(): CurrentWeatherResponse =
-        withContext(Dispatchers.IO) { weatherApi.getCurrentWeather() }
+    override suspend fun getCurrentWeather(lat: Double?, lon: Double?): CurrentWeatherResponse =
+        withContext(Dispatchers.IO) { weatherApi.getCurrentWeather(lat = lat, lon = lon) }
 
     override suspend fun getHourlyWeather(): HourlyWeatherResponse =
         withContext(Dispatchers.IO) { weatherApi.getHourlyWeather() }

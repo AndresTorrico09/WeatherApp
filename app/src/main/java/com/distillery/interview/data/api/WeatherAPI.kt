@@ -11,8 +11,8 @@ interface WeatherAPI {
 
     @GET("data/2.5/weather")
     suspend fun getCurrentWeather(
-        @Query("lat") lat: Double = LAT_BSAS,
-        @Query("lon") lon: Double = LON_BSAS,
+        @Query("lat") lat: Double?,
+        @Query("lon") lon: Double?,
         @Query("units") units: String = UNIT_METRIC,
         @Query("appid") appid: String = BuildConfig.WEATHER_API_KEY,
     ): CurrentWeatherResponse
