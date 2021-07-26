@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.distillery.interview.R
+import com.distillery.interview.ui.search.SearchFragment
 import com.distillery.interview.ui.viewpager.WeatherCollectionFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -80,11 +81,19 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menuItemSearch -> {
-//                go to fragment
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.root, SearchFragment())
+                    .addToBackStack("SearchFragment")
+                    .commitAllowingStateLoss()
                 true
             }
             else -> false
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        supportActionBar?.show()
     }
 
     companion object {

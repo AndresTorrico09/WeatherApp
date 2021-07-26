@@ -12,6 +12,8 @@
     <string name="min_temp_text">Min: %1$s°</string>
     <string name="feels_like_text">Feels like: %1$s°</string>
 
+<!--search    -->
     <string name="search">Search</string>
+    <string name="start_typing">Type your prefer location…</string>
 
 </resources>
