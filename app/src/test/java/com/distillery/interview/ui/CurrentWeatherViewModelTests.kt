@@ -39,10 +39,12 @@ class CurrentWeatherViewModelTests {
     fun getCurrentWeather_returnSuccessResponse() = runBlockingTest {
         //GIVEN
         val mockWeatherResponse = mock<CurrentWeatherResponse>()
-        whenever(weatherRepository.getCurrentWeather()).thenReturn(mockWeatherResponse)
+        val lat = 0.0
+        val lon = 0.0
+        whenever(weatherRepository.getCurrentWeather(lat, lon)).thenReturn(mockWeatherResponse)
 
         //WHEN
-        val liveDataResponse = viewModel.getCurrentWeather()
+        val liveDataResponse = viewModel.getCurrentWeather(lat, lon)
 
         //THEN
         val loading = liveDataResponse.getOrAwaitValue()
@@ -56,10 +58,12 @@ class CurrentWeatherViewModelTests {
     fun getCurrentWeather_returnErrorResponse() = runBlockingTest {
         //GIVEN
         val mockError = RuntimeException()
-        whenever(weatherRepository.getCurrentWeather()).thenThrow(mockError)
+        val lat = 0.0
+        val lon = 0.0
+        whenever(weatherRepository.getCurrentWeather(lat, lon)).thenThrow(mockError)
 
         //WHEN
-        val liveDataResponse = viewModel.getCurrentWeather()
+        val liveDataResponse = viewModel.getCurrentWeather(lat, lon)
 
         //THEN
         val loading = liveDataResponse.getOrAwaitValue()
