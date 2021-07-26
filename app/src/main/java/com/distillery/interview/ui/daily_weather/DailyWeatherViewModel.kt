@@ -10,11 +10,11 @@ class DailyWeatherViewModel(
     private val weatherRepository: WeatherRepository,
 ) : ViewModel() {
 
-    fun getDailyWeather() = liveData {
+    fun getDailyWeather(lat: Double?, lon: Double?) = liveData {
         emit(Result.Loading())
 
         runCatching {
-            weatherRepository.getDailyWeather()
+            weatherRepository.getDailyWeather(lat, lon)
         }.onSuccess {
             emit(Result.Success(it))
         }.onFailure {

@@ -28,8 +28,8 @@ interface WeatherAPI {
 
     @GET("data/2.5/onecall")
     suspend fun getDailyWeather(
-        @Query("lat") lat: Double = LAT_BSAS,
-        @Query("lon") lon: Double = LON_BSAS,
+        @Query("lat") lat: Double?,
+        @Query("lon") lon: Double?,
         @Query("units") units: String = UNIT_METRIC,
         @Query("exclude") exclude: String = EXCLUDE_DAILY,
         @Query("appid") appid: String = BuildConfig.WEATHER_API_KEY,

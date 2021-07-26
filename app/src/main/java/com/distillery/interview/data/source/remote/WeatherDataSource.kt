@@ -9,6 +9,6 @@ interface WeatherDataSource {
 
     suspend fun getHourlyWeather(lat: Double?, lon: Double?): HourlyWeatherResponse
 
-    suspend fun getDailyWeather(): DailyWeatherResponse
+    suspend fun getDailyWeather(lat: Double?, lon: Double?): DailyWeatherResponse
 
 } 
