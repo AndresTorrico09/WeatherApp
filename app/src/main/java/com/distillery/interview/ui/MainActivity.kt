@@ -15,7 +15,7 @@ import com.google.android.gms.location.LocationServices
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private val mainViewModel: MainViewModel by viewModels()
+    private val mainSharedViewModel: MainSharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             } else {
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->
-                        mainViewModel.setLocation(location?.latitude, location?.longitude)
+                        mainSharedViewModel.setLocation(location?.latitude, location?.longitude)
                     }
 
                 init()

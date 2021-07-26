@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.distillery.interview.data.models.LocationPreferences
 
-class MainViewModel : ViewModel() {
+class MainSharedViewModel : ViewModel() {
     private val _locationLiveData = MutableLiveData<LocationPreferences>()
     val locationLiveData = _locationLiveData
 

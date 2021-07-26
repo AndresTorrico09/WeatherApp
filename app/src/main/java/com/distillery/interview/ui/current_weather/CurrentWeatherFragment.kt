@@ -13,7 +13,7 @@ import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.source.WeatherRepository
 import com.distillery.interview.data.source.remote.WeatherRemoteDataSource
 import com.distillery.interview.databinding.FragmentCurrentWeatherBinding
-import com.distillery.interview.ui.MainViewModel
+import com.distillery.interview.ui.MainSharedViewModel
 
 class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
     private val viewModel: CurrentWeatherViewModel by viewModels {
@@ -23,14 +23,14 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
             )
         )
     }
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private val mainSharedViewModel: MainSharedViewModel by activityViewModels()
     private lateinit var binding: FragmentCurrentWeatherBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCurrentWeatherBinding.bind(view)
 
-        mainViewModel.locationLiveData.observe(viewLifecycleOwner, {
+        mainSharedViewModel.locationLiveData.observe(viewLifecycleOwner, {
             viewModel.getCurrentWeather(it.lat, it.lon).observe(viewLifecycleOwner, resultObserver)
         })
     }
