@@ -5,7 +5,7 @@ import com.distillery.interview.data.models.DailyWeatherResponse
 import com.distillery.interview.data.models.HourlyWeatherResponse
 
 interface WeatherDataSource {
-    suspend fun getCurrentWeather(): CurrentWeatherResponse
+    suspend fun getCurrentWeather(lat: Double?, lon: Double?): CurrentWeatherResponse
 
     suspend fun getHourlyWeather(): HourlyWeatherResponse
 
