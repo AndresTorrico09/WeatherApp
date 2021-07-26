@@ -5,9 +5,9 @@ import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.ViewModelProvider
 import com.distillery.interview.R
 import com.distillery.interview.ui.viewpager.WeatherCollectionFragment
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -15,12 +15,10 @@ import com.google.android.gms.location.LocationServices
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainViewModel =
-            ViewModelProvider(this, MainViewModel.Factory()).get(MainViewModel::class.java)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         requestLocationPermissions()

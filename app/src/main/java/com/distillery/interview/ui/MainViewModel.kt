@@ -2,7 +2,6 @@ package com.distillery.interview.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.distillery.interview.data.models.LocationPreferences
 
 class MainViewModel : ViewModel() {
@@ -11,15 +10,6 @@ class MainViewModel : ViewModel() {
 
     fun setLocation(lat: Double?, lon: Double?) {
         locationLiveData.value = LocationPreferences(lat, lon)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    class Factory : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(
-            modelClass: Class<T>,
-        ): T {
-            return MainViewModel() as T
-        }
     }
 }
 

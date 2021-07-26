@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.distillery.interview.R
 import com.distillery.interview.data.models.CurrentWeatherResponse
 import com.distillery.interview.data.models.Result
@@ -23,13 +23,8 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
             )
         )
     }
+    private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var binding: FragmentCurrentWeatherBinding
-    private lateinit var mainViewModel: MainViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
