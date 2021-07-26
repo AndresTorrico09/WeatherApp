@@ -10,11 +10,11 @@ class HourlyWeatherViewModel(
     private val weatherRepository: WeatherRepository,
 ) : ViewModel() {
 
-    fun getHourlyWeather() = liveData {
+    fun getHourlyWeather(lat: Double?, lon: Double?) = liveData {
         emit(Result.Loading())
 
         runCatching {
-            weatherRepository.getHourlyWeather()
+            weatherRepository.getHourlyWeather(lat, lon)
         }.onSuccess {
             emit(Result.Success(it))
         }.onFailure {

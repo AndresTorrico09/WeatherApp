@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.distillery.interview.R
 import com.distillery.interview.data.models.Hourly
@@ -13,10 +15,10 @@ import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.source.WeatherRepository
 import com.distillery.interview.data.source.remote.WeatherRemoteDataSource
 import com.distillery.interview.databinding.FragmentHourlyWeatherBinding
+import com.distillery.interview.ui.MainSharedViewModel
 import com.distillery.interview.util.toDate
 
 class HourlyWeatherFragment : Fragment(R.layout.fragment_hourly_weather) {
-
     private val viewModel: HourlyWeatherViewModel by viewModels {
         HourlyWeatherViewModel.Factory(
             WeatherRepository(
@@ -24,6 +26,7 @@ class HourlyWeatherFragment : Fragment(R.layout.fragment_hourly_weather) {
             )
         )
     }
+    private val mainSharedViewModel: MainSharedViewModel by activityViewModels()
     private lateinit var binding: FragmentHourlyWeatherBinding
     private lateinit var hourlyWeatherAdapter: HourlyWeatherAdapter
 
@@ -31,7 +34,15 @@ class HourlyWeatherFragment : Fragment(R.layout.fragment_hourly_weather) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHourlyWeatherBinding.bind(view)
 
-        viewModel.getHourlyWeather().observe(viewLifecycleOwner, { weatherResponse ->
+        mainSharedViewModel.locationLiveData.observe(viewLifecycleOwner, {
+            viewModel.getHourlyWeather(it.lat, it.lon).observe(viewLifecycleOwner, resultObserver)
+        })
+
+        setupRecyclerView()
+    }
+
+    private val resultObserver: Observer<Result<HourlyWeatherResponse>> =
+        Observer { weatherResponse ->
             when (weatherResponse) {
                 is Result.Loading -> {
                     showLoading()
@@ -45,11 +56,7 @@ class HourlyWeatherFragment : Fragment(R.layout.fragment_hourly_weather) {
                     showError(weatherResponse.exception?.message.toString())
                 }
             }
-        })
-        viewModel.getHourlyWeather()
-
-        setupRecyclerView()
-    }
+        }
 
     private fun setValues(hourlyWeatherResponse: HourlyWeatherResponse) {
         binding.dateToday.text = hourlyWeatherResponse.hourly[0].dt.toDate()

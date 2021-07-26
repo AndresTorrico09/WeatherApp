@@ -10,8 +10,8 @@ class WeatherRepository(private val weatherRemoteDataSource: WeatherDataSource) 
     suspend fun getCurrentWeather(lat: Double?, lon: Double?): CurrentWeatherResponse =
         weatherRemoteDataSource.getCurrentWeather(lat, lon)
 
-    suspend fun getHourlyWeather(): HourlyWeatherResponse =
-        weatherRemoteDataSource.getHourlyWeather()
+    suspend fun getHourlyWeather(lat: Double?, lon: Double?): HourlyWeatherResponse =
+        weatherRemoteDataSource.getHourlyWeather(lat, lon)
 
     suspend fun getDailyWeather(): DailyWeatherResponse =
         weatherRemoteDataSource.getDailyWeather()
