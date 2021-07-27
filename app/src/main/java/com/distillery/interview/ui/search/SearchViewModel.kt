@@ -10,11 +10,11 @@ class SearchViewModel(
     private val searchRepository: SearchRepository,
 ) : ViewModel() {
 
-    fun getCities() = liveData {
+    fun getCities(newText: String?) = liveData {
         emit(Result.Loading())
 
         runCatching {
-            searchRepository.getCities()
+            searchRepository.getCities(newText)
         }.onSuccess {
             emit(Result.Success(it))
         }.onFailure {

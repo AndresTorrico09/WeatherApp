@@ -3,6 +3,7 @@ package com.distillery.interview.ui.search
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.distillery.interview.R
@@ -30,8 +31,27 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentSearchBinding.bind(view)
+        setupRecyclerView()
+        setupSearchView()
+    }
 
-        viewModel.getCities().observe(viewLifecycleOwner, { cityResponse ->
+    private fun setupSearchView() {
+        binding.searchView.setIconifiedByDefault(false)
+        binding.searchView.isIconified = false
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchCity(newText)
+                return true
+            }
+
+            override fun onQueryTextSubmit(newText: String?): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun searchCity(newText: String?) {
+        viewModel.getCities(newText).observe(viewLifecycleOwner, { cityResponse ->
             when (cityResponse) {
                 is Result.Loading -> {
                     showLoading()
@@ -46,8 +66,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
             }
         })
-
-        setupRecyclerView()
     }
 
     private fun setValues(searchResponse: SearchResponse) {
@@ -67,4 +85,5 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun hideLoading() =
         Toast.makeText(requireContext(), "endLoading", Toast.LENGTH_SHORT).show()
+
 }
