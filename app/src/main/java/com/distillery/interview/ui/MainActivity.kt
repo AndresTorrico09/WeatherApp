@@ -4,11 +4,14 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.distillery.interview.R
+import com.distillery.interview.ui.search.SearchFragment
 import com.distillery.interview.ui.viewpager.WeatherCollectionFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -68,6 +71,29 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.root, WeatherCollectionFragment())
             .commitAllowingStateLoss()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menuItemSearch -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.root, SearchFragment())
+                    .addToBackStack("SearchFragment")
+                    .commitAllowingStateLoss()
+                true
+            }
+            else -> false
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        supportActionBar?.show()
     }
 
     companion object {
