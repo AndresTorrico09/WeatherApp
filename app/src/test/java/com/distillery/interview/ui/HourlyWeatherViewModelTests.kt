@@ -38,10 +38,12 @@ class HourlyWeatherViewModelTests {
     fun getHourlyWeather_returnSuccessResponse() = runBlockingTest {
         //GIVEN
         val mockWeatherResponse = mock<HourlyWeatherResponse>()
-        whenever(weatherRepository.getHourlyWeather()).thenReturn(mockWeatherResponse)
+        val lat = 0.0
+        val lon = 0.0
+        whenever(weatherRepository.getHourlyWeather(lat, lon)).thenReturn(mockWeatherResponse)
 
         //WHEN
-        val liveDataResponse = viewModel.getHourlyWeather()
+        val liveDataResponse = viewModel.getHourlyWeather(lat, lon)
 
         //THEN
         val loading = liveDataResponse.getOrAwaitValue()
@@ -55,10 +57,12 @@ class HourlyWeatherViewModelTests {
     fun getHourlyWeather_returnErrorResponse() = runBlockingTest {
         //GIVEN
         val mockError = RuntimeException()
-        whenever(weatherRepository.getHourlyWeather()).thenThrow(mockError)
+        val lat = 0.0
+        val lon = 0.0
+        whenever(weatherRepository.getHourlyWeather(lat, lon)).thenThrow(mockError)
 
         //WHEN
-        val liveDataResponse = viewModel.getHourlyWeather()
+        val liveDataResponse = viewModel.getHourlyWeather(lat, lon)
 
         //THEN
         val loading = liveDataResponse.getOrAwaitValue()
