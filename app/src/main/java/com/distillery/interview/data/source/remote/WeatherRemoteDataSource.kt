@@ -17,6 +17,6 @@ class WeatherRemoteDataSource : WeatherDataSource {
     override suspend fun getHourlyWeather(lat: Double?, lon: Double?): HourlyWeatherResponse =
         withContext(Dispatchers.IO) { weatherApi.getHourlyWeather(lat = lat, lon = lon) }
 
-    override suspend fun getDailyWeather(): DailyWeatherResponse =
-        withContext(Dispatchers.IO) { weatherApi.getDailyWeather() }
+    override suspend fun getDailyWeather(lat: Double?, lon: Double?): DailyWeatherResponse =
+        withContext(Dispatchers.IO) { weatherApi.getDailyWeather(lat = lat, lon = lon) }
 }

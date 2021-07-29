@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.distillery.interview.R
 import com.distillery.interview.data.models.Daily
@@ -13,6 +15,7 @@ import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.source.WeatherRepository
 import com.distillery.interview.data.source.remote.WeatherRemoteDataSource
 import com.distillery.interview.databinding.FragmentDailyWeatherBinding
+import com.distillery.interview.ui.MainSharedViewModel
 
 class DailyWeatherFragment : Fragment(R.layout.fragment_daily_weather) {
 
@@ -23,6 +26,7 @@ class DailyWeatherFragment : Fragment(R.layout.fragment_daily_weather) {
             )
         )
     }
+    private val mainSharedViewModel: MainSharedViewModel by activityViewModels()
     private lateinit var binding: FragmentDailyWeatherBinding
     private lateinit var dailyWeatherAdapter: DailyWeatherAdapter
 
@@ -30,7 +34,15 @@ class DailyWeatherFragment : Fragment(R.layout.fragment_daily_weather) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDailyWeatherBinding.bind(view)
 
-        viewModel.getDailyWeather().observe(viewLifecycleOwner, { weatherResponse ->
+        mainSharedViewModel.locationLiveData.observe(viewLifecycleOwner, {
+            viewModel.getDailyWeather(it.lat, it.lon).observe(viewLifecycleOwner, resultObserver)
+        })
+
+        setupRecyclerView()
+    }
+
+    private val resultObserver: Observer<Result<DailyWeatherResponse>> =
+        Observer { weatherResponse ->
             when (weatherResponse) {
                 is Result.Loading -> {
                     showLoading()
@@ -44,11 +56,7 @@ class DailyWeatherFragment : Fragment(R.layout.fragment_daily_weather) {
                     showError(weatherResponse.exception?.message.toString())
                 }
             }
-        })
-        viewModel.getDailyWeather()
-
-        setupRecyclerView()
-    }
+        }
 
     private fun setValues(dailyWeatherResponse: DailyWeatherResponse) {
         dailyWeatherAdapter.setItems(dailyWeatherResponse.daily as ArrayList<Daily>)
