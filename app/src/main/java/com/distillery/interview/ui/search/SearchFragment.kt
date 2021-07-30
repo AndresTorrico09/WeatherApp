@@ -7,18 +7,18 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.distillery.interview.R
-import com.distillery.interview.data.models.City
+import com.distillery.interview.data.models.HitsItem
 import com.distillery.interview.data.models.Result
 import com.distillery.interview.data.models.SearchResponse
 import com.distillery.interview.data.source.SearchRepository
-import com.distillery.interview.data.source.remote.SearchLocalDataSource
+import com.distillery.interview.data.source.remote.SearchRemoteDataSource
 import com.distillery.interview.databinding.FragmentSearchBinding
 import com.distillery.interview.ui.MainActivity
 
 class SearchFragment : Fragment(R.layout.fragment_search) {
     private val viewModel: SearchViewModel by viewModels {
         SearchViewModel.Factory(
-            SearchRepository(SearchLocalDataSource())
+            SearchRepository(SearchRemoteDataSource())
         )
     }
     private lateinit var searchAdapter: SearchAdapter
@@ -69,7 +69,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun setValues(searchResponse: SearchResponse) {
-        searchAdapter.setItems(searchResponse.cities as ArrayList<City>)
+        searchAdapter.setItems(searchResponse.hits as ArrayList<HitsItem>)
     }
 
     private fun setupRecyclerView() {

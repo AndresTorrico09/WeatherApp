@@ -4,14 +4,14 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.distillery.interview.data.models.City
+import com.distillery.interview.data.models.HitsItem
 import com.distillery.interview.databinding.ItemSearchResultBinding
 
 class SearchAdapter : RecyclerView.Adapter<SearchViewHolder>() {
 
-    private val items = ArrayList<City>()
+    private val items = ArrayList<HitsItem>()
 
-    fun setItems(items: ArrayList<City>) {
+    fun setItems(items: ArrayList<HitsItem>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
@@ -32,11 +32,11 @@ class SearchAdapter : RecyclerView.Adapter<SearchViewHolder>() {
 class SearchViewHolder(private val itemBinding: ItemSearchResultBinding) :
     RecyclerView.ViewHolder(itemBinding.root) {
 
-    private lateinit var city: City
+    private lateinit var item: HitsItem
 
     @SuppressLint("SetTextI18n")
-    fun bind(item: City) {
-        this.city = item
-        itemBinding.textViewCityName.text = item.name
+    fun bind(item: HitsItem) {
+        this.item = item
+        itemBinding.textViewCityName.text = item.localeNames.default.first().toString()
     }
 }

@@ -1,7 +1,8 @@
 package com.distillery.interview.data.source.remote
 
+import com.distillery.interview.data.models.SearchBodyRequest
 import com.distillery.interview.data.models.SearchResponse
 
 interface SearchDataSource {
-    suspend fun getCities(newText: String?): SearchResponse
+    suspend fun getCities(searchBodyRequest: SearchBodyRequest): SearchResponse
 } 
