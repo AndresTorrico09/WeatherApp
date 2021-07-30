@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import com.distillery.interview.data.models.Result
+import com.distillery.interview.data.models.SearchBodyRequest
+import com.distillery.interview.data.models.SearchResponse
 import com.distillery.interview.data.source.SearchRepository
 
 class SearchViewModel(
@@ -14,7 +16,10 @@ class SearchViewModel(
         emit(Result.Loading())
 
         runCatching {
-            searchRepository.getCities(newText)
+            if (!newText.isNullOrEmpty() && newText.length > MIN_SEARCH_LENGTH)
+                searchRepository.getCities(SearchBodyRequest(newText))
+            else
+                SearchResponse(arrayListOf())
         }.onSuccess {
             emit(Result.Success(it))
         }.onFailure {
@@ -22,6 +27,9 @@ class SearchViewModel(
         }
     }
 
+    companion object {
+        private const val MIN_SEARCH_LENGTH = 2
+    }
 
     class Factory(
         private val searchRepository: SearchRepository,

@@ -2,16 +2,23 @@ package com.distillery.interview.ui.search
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.distillery.interview.data.models.City
+import com.distillery.interview.data.models.GeoLocation
+import com.distillery.interview.data.models.HitsItem
 import com.distillery.interview.databinding.ItemSearchResultBinding
 
-class SearchAdapter : RecyclerView.Adapter<SearchViewHolder>() {
+class SearchAdapter(private val listener: LocationClickable) :
+    RecyclerView.Adapter<SearchViewHolder>() {
 
-    private val items = ArrayList<City>()
+    interface LocationClickable {
+        fun onClickLocation(loc: GeoLocation)
+    }
 
-    fun setItems(items: ArrayList<City>) {
+    private val items = ArrayList<HitsItem>()
+
+    fun setItems(items: ArrayList<HitsItem>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
@@ -20,7 +27,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val binding: ItemSearchResultBinding =
             ItemSearchResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SearchViewHolder(binding)
+        return SearchViewHolder(binding, listener)
     }
 
     override fun getItemCount(): Int = items.size
@@ -29,14 +36,24 @@ class SearchAdapter : RecyclerView.Adapter<SearchViewHolder>() {
         holder.bind(items[position])
 }
 
-class SearchViewHolder(private val itemBinding: ItemSearchResultBinding) :
-    RecyclerView.ViewHolder(itemBinding.root) {
+class SearchViewHolder(
+    private val itemBinding: ItemSearchResultBinding,
+    private val listener: SearchAdapter.LocationClickable,
+) : RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener {
 
-    private lateinit var city: City
+    init {
+        itemBinding.rootView.setOnClickListener(this)
+    }
+
+    private lateinit var item: HitsItem
 
     @SuppressLint("SetTextI18n")
-    fun bind(item: City) {
-        this.city = item
-        itemBinding.textViewCityName.text = item.name
+    fun bind(item: HitsItem) {
+        this.item = item
+        itemBinding.textViewCityName.text = item.localeNames.default.first().toString()
+    }
+
+    override fun onClick(v: View?) {
+        listener.onClickLocation(GeoLocation(item.geoLocation.lat, item.geoLocation.lon))
     }
 }

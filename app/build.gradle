@@ -22,6 +22,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "WEATHER_API_KEY", localProperties['WEATHER_API_KEY'])
+        buildConfigField("String", "PLACES_API_KEY", localProperties['PLACES_API_KEY'])
+        buildConfigField("String", "PLACES_APP_ID", localProperties['PLACES_APP_ID'])
     }
 
     buildTypes {

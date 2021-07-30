@@ -1,12 +1,12 @@
 package com.distillery.interview.data
 
-import com.distillery.interview.data.api.ApiKeyInterceptor
 import com.distillery.interview.data.api.WeatherAPI
+import com.distillery.interview.data.api.WeatherApiInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object DependencyProvider {
+object DependencyWeatherProvider {
 
     private val retrofit by lazy {
         Retrofit.Builder()
@@ -18,7 +18,7 @@ object DependencyProvider {
 
     private val gsonConverterFactory by lazy { GsonConverterFactory.create() }
 
-    private val apiKeyInterceptor by lazy { ApiKeyInterceptor() }
+    private val apiKeyInterceptor by lazy { WeatherApiInterceptor() }
 
     private val httpClient by lazy {
         OkHttpClient.Builder()
